@@ -1,0 +1,70 @@
+.about-project {
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  padding: 110px 0;
+}
+
+.about-project__container {
+  max-width: 1140px;
+}
+
+.about-project__facts {
+  padding: 70px 0 0 0;
+  margin: 0 0 110px 0;
+  display: flex;
+  gap: 40px;
+  list-style-type: none;
+}
+
+.about-project__fact {
+  max-width: 550px;
+}
+
+.about-project__fact-title {
+  margin: 0 0 26px 0;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: -0.04em;
+}
+
+.about-project__fact-text {
+  margin: 0;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.about-project__timeline {
+  display: grid;
+  grid-template-columns: 20% 80%;
+  grid-template-rows: 36px;
+  row-gap: 14px;
+}
+
+.about-project__timeline-strip {
+  background: #303030;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.about-project__timeline-strip_color_green {
+  background: #3ddc84;
+  color: #000
+}
+
+.about-project__timeline-text {
+  max-width: 200px;
+  margin: 0;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+}
+
+.about-project__timeline-text_type_caption {
+  justify-self: center;
+  color: #a0a0a0;
+}

@@ -1,0 +1,57 @@
+.techs {
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  padding: 100px 0;
+  background-color: #272727;
+}
+
+.techs__container {
+  width: 1140px;
+}
+
+.techs__subtitle {
+  padding: 90px 0 0 0;
+  margin: 0 auto 26px auto;
+  max-width: 600px;
+  font-weight: 400;
+  font-size: 50px;
+  line-height: 58px;
+  text-align: center;
+  letter-spacing: -0.04em;
+}
+
+.techs__text {
+  margin: 0 auto 100px auto;
+  max-width: 460px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+  letter-spacing: -0.04em;
+}
+
+.techs__cards {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.techs__card {
+  width: 90px;
+  padding: 21px 0 22px 0;
+  background: #303030;
+  border-radius: 10px;
+}
+
+.techs__card-title {
+  margin: 0;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  letter-spacing: -0.04em;
+}

@@ -1,6 +1,7 @@
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import MoviesCard from "../MovieCard/MoviesCard";
+import More from "../More/More";
 
 function Movies() {
   return (
@@ -8,8 +9,19 @@ function Movies() {
       <SearchForm />
       <MoviesCardList>
         <MoviesCard />
+        <MoviesCard />
+        <MoviesCard />
+        <MoviesCard />
+        <MoviesCard />
+        <MoviesCard />
+        <MoviesCard />
+        <MoviesCard />
+        <MoviesCard />
+        <MoviesCard />
+        <MoviesCard />
+        <MoviesCard />
       </MoviesCardList>
-  
+      <More />
     </div>
   );
 }

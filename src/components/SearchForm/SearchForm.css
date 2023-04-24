@@ -56,3 +56,7 @@
   cursor: pointer;
   transform: scale(1.15);
 }
+
+.search-form__button:active {
+  transform: scale(0.95);
+}

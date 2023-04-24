@@ -3,7 +3,7 @@ import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 
 function SearchForm() {
   return (
-    <form className="search-form">
+    <form className="search-form" action="#">
       <fieldset className="search-form__text-fieldset">
         <input 
           className="search-form__input" 

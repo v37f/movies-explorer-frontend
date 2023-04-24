@@ -49,12 +49,13 @@
   background-image: url('../../images/search-icon.svg');
   background-repeat: no-repeat;
   background-position: center;
-  transition: transform .4s, .4s ease;
+  transition: opacity .4s ease;
 }
 
 .search-form__button:hover {
   cursor: pointer;
-  transform: scale(1.15);
+  opacity: .7;
+  
 }
 
 .search-form__button:active {

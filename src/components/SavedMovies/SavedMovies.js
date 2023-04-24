@@ -2,9 +2,9 @@ import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import MoviesCard from "../MovieCard/MoviesCard";
 
-function Movies() {
+function SavedMovies() {
   return (
-    <div className="movies">
+    <div className="saved-movies">
       <SearchForm />
       <MoviesCardList>
         <MoviesCard />
@@ -14,4 +14,4 @@ function Movies() {
   );
 }
 
-export default Movies;
+export default SavedMovies;

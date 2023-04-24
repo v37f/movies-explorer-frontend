@@ -21,8 +21,13 @@
   font-size: 12px;
   line-height: 15px;
   cursor: pointer;
+  transition: background-color 100ms ease-in-out;
 }
 
 .more__button:active {
   transform: scale(0.95);
+}
+
+.more__button:hover {
+  background-color: #4285F4;
 }

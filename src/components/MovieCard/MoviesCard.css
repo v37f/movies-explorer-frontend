@@ -34,7 +34,12 @@
 }
 
 .movies-card__duration {
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 52px;
+  height: 18px;
+  box-sizing: border-box;
   align-self: flex-start;
   border-radius: 3px;
   padding: 3px 4px;

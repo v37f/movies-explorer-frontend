@@ -8,7 +8,7 @@ function MoviesCard() {
   const { pathname } = useLocation();
 
   const saveButtonClassName = ( 
-    `movies-card__button movies-card__button_type_save ${isSaved && 'movies-card__button_active'}` 
+    `movies-card__button movies-card__button_type_save ${isSaved && 'movies-card__button_saved'}` 
   );
 
   function handleSaveClick() {

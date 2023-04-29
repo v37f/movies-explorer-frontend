@@ -100,7 +100,7 @@
   transform: scale(1.2);
 }
 
-.movies-card__button_active {
+.movies-card__button_saved {
   width: 21px;
   background-color: #ee3465;
   background-image: url('../../images/save-button-icon.svg');
@@ -111,7 +111,7 @@
   transition-delay: 150ms;
 }
 
-.movies-card__button_active.movies-card__button_type_save::before {
+.movies-card__button_saved.movies-card__button_type_save::before {
   content: '';
   opacity: 0;
   visibility: hidden;

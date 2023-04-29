@@ -3,6 +3,7 @@
   color: #fff;
   width: 1140px;
   margin: 0 auto;
+  flex-shrink: 0;
 }
 
 .footer__text {

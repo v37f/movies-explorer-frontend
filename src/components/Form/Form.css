@@ -1,0 +1,87 @@
+.form__text-inputs {
+  padding: 0;
+  margin: 0 0 16px;
+  border: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.form__input-label {
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: #8b8b8b;
+  margin-bottom: 10px;
+  align-self: flex-start;
+}
+
+.form__input {
+  box-sizing: border-box;
+  width: 396px;
+  padding: 15px;
+  border: none;
+  border-radius: 8px;
+  background-color: #2f2f2f;
+  margin-bottom: 20px;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  color: #fff;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.form__input:last-of-type {
+  margin-bottom: 10px;
+}
+
+.form__input:focus {
+  outline: 2px solid #4285f4;
+}
+
+.form__input:-webkit-autofill,
+.form__input:-webkit-autofill:hover, 
+.form__input:-webkit-autofill:focus, 
+.form__input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 25px #2f2f2f inset;
+    -webkit-text-fill-color: #fff;
+}
+
+.form__input_invalid {
+  color: #ee3365;
+}
+
+.form__input-error {
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: #ee3465;
+  margin-bottom: 69px;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.form__input-error_visible {
+  visibility: visible;
+  opacity: 1;
+}
+
+.form__submit {
+  background: #4285f4;
+  box-shadow: none;
+  border: none;
+  border-radius: 3px;
+  padding: 13px 0 15px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  color: #fff;
+  transition: opacity .4s ease;
+}
+
+.form__submit:hover {
+  cursor: pointer;
+  opacity: .8;
+}

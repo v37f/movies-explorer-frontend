@@ -67,6 +67,10 @@
   opacity: 1;
 }
 
+.form__input-error_type_login {
+  margin-bottom: 157px;
+}
+
 .form__submit {
   background: #4285f4;
   box-shadow: none;

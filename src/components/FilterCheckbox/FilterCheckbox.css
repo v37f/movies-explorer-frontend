@@ -13,7 +13,7 @@
   height: 14px; 
   width: 34px;
   border-radius: 20px;
-  background-color: #ebebeb;
+  background-color: #343434;
   position: relative;
   transition: 150ms all linear;
   transition-delay: 150ms;
@@ -30,7 +30,7 @@
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background-color: #fff;
+  background-color: #a0a0a0;
   transform-origin: left;
   transition: 150ms all linear;
   transition-delay: 150ms;
@@ -38,6 +38,7 @@
 
 .filter-checkbox__input:checked:before {
   transform: translateX(20px);
+  background-color: #fff;
   transition-delay: 150ms;
 }
 

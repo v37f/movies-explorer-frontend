@@ -1,0 +1,172 @@
+.profile {
+  padding: 74px 0 70px;
+  flex-grow: 1;
+  color: #fff;
+}
+
+.profile__container {
+  width: 410px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile__greetings {
+  max-width: 410px;
+  margin: 0 0 123px 0;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 29px;
+  text-align: center;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;  
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.profile__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile__form-fieldset {
+  border: none;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0 0 189px 0;
+}
+
+.profile__form-fieldset:disabled {
+  margin: 0 0 220px 0;
+}
+
+.profile__form-label {
+  width: 410px;
+  min-height: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 0 16px 0;
+  margin: 0 0 17px;
+  border-bottom: 1px solid #424242;
+}
+
+.profile__form-label:last-of-type {
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+
+.profile__form-label:has(> .profile__form-input:focus) {
+  color: #4285f4;
+}
+
+.profile__form-label-span {
+  max-width: 70px;
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 13px;
+}
+
+.profile__form-input {
+  display: block;
+  box-sizing: border-box;
+  width: 300px;
+  background-color: inherit;
+  border: 0;
+  padding: 0;
+  margin: 0 0 0 auto;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+  text-align: right;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  color: #fff;
+}
+
+.profile__form-input:focus {
+  outline: 1px solid #4285f4;
+}
+
+.profile__form-button {
+  display: flex;
+  justify-content: center;
+  padding: 13px 0 15px;
+  width: 100%;
+  height: 45px;
+  background: #3456f3;
+  box-shadow: none;
+  border: none;
+  border-radius: 3px;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  color: #fff;
+  transition: opacity .4s ease;
+}
+
+.profile__form-button:hover {
+  cursor: pointer;
+  opacity: .8;
+}
+
+.profile__form-button:disabled {
+  background: #f8f8f8;
+  color: #c2c2c2
+}
+
+.profile__form-button:disabled:hover {
+  cursor: default;
+  opacity: 1;
+}
+
+.profile__form-error {
+  max-width: 100%;
+  min-height: 14px;
+  margin-bottom: 20px;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+  text-align: center;
+  color: #ff004c;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.profile__form-error_visible {
+  visibility: visible;
+  opacity: 1;
+}
+
+.profile__button {
+  background: none;
+  box-shadow: none;
+  border: none;
+  padding: 0;
+  font-weight: 400;
+  color: #fff;
+  margin: 0 0 16px;
+  font-size: 13px;
+  line-height: 16px;
+  text-align: center;
+  transition: opacity .4s ease;
+}
+
+.profile__button_color_red {
+  font-weight: 500;
+  color: #ee3465;
+}
+
+.profile__button:last-of-type {
+  margin: 0;
+}
+
+.profile__button:hover {
+  cursor: pointer;
+  opacity: .7;
+}

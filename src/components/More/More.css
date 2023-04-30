@@ -21,7 +21,7 @@
   font-size: 12px;
   line-height: 15px;
   cursor: pointer;
-  transition: background-color 100ms ease-in-out;
+  transition: opacity .4s ease;
 }
 
 .more__button:active {
@@ -29,5 +29,5 @@
 }
 
 .more__button:hover {
-  background-color: #4285F4;
+  opacity: .8;
 }

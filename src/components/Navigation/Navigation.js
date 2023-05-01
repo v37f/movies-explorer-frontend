@@ -1,10 +1,18 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "./Navigation.css";
 
-function Navigation({ isLoggedIn }) {  
+function Navigation() {  
   return (
     <nav className="navigation">
-      {isLoggedIn 
+      <ul className="navigation__links">
+        <li className="navigation__links-item">
+          <NavLink className="navigation__link" to="/movies">Фильмы</NavLink>
+        </li>
+        <li className="navigation__links-item">
+          <NavLink className="navigation__link" to="/saved-movies">Сохранённые фильмы</NavLink>
+        </li>
+      </ul>
+      {/* {isLoggedIn 
         ? 
           <ul className="navigation__links">
             <Link className="navigation__link" to="/movies">Фильмы</Link>
@@ -17,8 +25,13 @@ function Navigation({ isLoggedIn }) {
             <Link className="navigation__link navigation__link_type_green-box" to="/signin">Войти</Link>
           </ul>
         }
+    </nav> */}
     </nav>
   );
 }
 
+      
+
 export default Navigation;
+
+

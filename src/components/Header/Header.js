@@ -1,7 +1,7 @@
 import "./Header.css";
 import Logo from "../Logo/Logo";
 import Navigation from "../Navigation/Navigation";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 
 function Header({ isLoggedIn }) {
   const { pathname } = useLocation();
@@ -10,7 +10,25 @@ function Header({ isLoggedIn }) {
     <header className={"header" + (pathname==="/" ? " header_color_blue" : "")}>
       <div className="header__container">
         <Logo />
-        <Navigation isLoggedIn={isLoggedIn} />
+        <div className={"header__links" + (pathname==="/" ? " header__links_position_right" : "")}>
+          {isLoggedIn
+            ? <>
+                <Navigation />
+                <Link 
+                  className={"header__link header__link_type_account" + 
+                    (pathname==="/" ? " header__link_style_icon-bordered" : " header__link_style_icon")} 
+                  to="/profile"
+                >
+                  Аккаунт
+                </Link>
+              </>
+            : <>
+                <Link className="header__link header__link_type_login" to="/signup">Регистрация</Link>
+                <Link className="header__link header__link_type_login header__link_style_green-box" to="/signin">Войти</Link>
+              </>
+          }
+        </div>
+        
       </div>
     </header>
   );

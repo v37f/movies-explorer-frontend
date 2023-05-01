@@ -5,8 +5,7 @@
   font-family: 'Inter', Arial, sans-serif;
   font-style: normal;
   min-width: 320px;
-  /* Учтем ширину вертикального скролла(17px) что страница не дергалась при переключения контента со скроллом и без */
-  width: calc(100vw - 17px);
+  width: 100vw;
   min-height: 100vh;
 
   display: flex;

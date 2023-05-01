@@ -18,3 +18,30 @@
 
   color: #FFFFFF;
 }
+
+@media screen and (max-width: 1023px) {
+  .promo {
+    background-position: center 224px;
+    padding: 326px 0 342px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .promo__title {
+    font-size: 31px;
+    line-height: 39px;
+    max-width: calc(100% - (19px * 2));
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .promo {
+    background-position: center 142px;
+    background-size: 248px 248px;
+    padding: 207px 0 246px;
+  }
+
+  .promo__title {
+    max-width: calc(100% - (10px * 2));
+  }
+}

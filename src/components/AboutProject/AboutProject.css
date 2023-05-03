@@ -74,7 +74,7 @@
   .about-project__container {
     max-width: 1140px;
     width: calc(100% - (50px * 2));
-    min-width: 284px;
+    min-width: 389px;
   }
 }
 
@@ -121,6 +121,7 @@
 
   .about-project__container {
     width: calc(100% - (18px * 2));
+    min-width: 284px;
   }
 
 

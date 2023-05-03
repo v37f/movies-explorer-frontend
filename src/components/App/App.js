@@ -53,7 +53,7 @@ function App() {
 
   return (
     <div className="App">
-      {isHeaderVisible && <Header isLoggedIn={isLoggedIn} />}
+      {/* {isHeaderVisible && <Header isLoggedIn={isLoggedIn} />} */}
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/movies" element={<Movies />} />

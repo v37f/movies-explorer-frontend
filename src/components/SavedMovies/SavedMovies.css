@@ -1,3 +1,7 @@
 .saved-movies {
   flex-grow: 1;
 }
+
+.saved-movies__divider {
+  height: 140px;
+}

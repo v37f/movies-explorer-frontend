@@ -12,7 +12,7 @@ function SavedMovies() {
         <MoviesCard />
         <MoviesCard />
       </MoviesCardList>
-  
+      <div className="saved-movies__divider" />
     </div>
   );
 }

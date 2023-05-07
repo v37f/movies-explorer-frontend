@@ -39,3 +39,27 @@
 .form-container__link-text:hover {
   opacity: .7;
 }
+
+@media screen and (max-width: 767px) {
+  .form-container {
+    max-width: 396px;
+    width: calc(100% - (30px * 2));
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .form-container__logo {
+    align-self: center;
+    margin-bottom: 50px;
+  }
+
+  .form-container__title {
+    align-self: center;
+    margin: 0 0 80px;
+  }
+
+  .form-container__text {
+    font-size: 12px;
+    line-height: 15px;
+  }
+}

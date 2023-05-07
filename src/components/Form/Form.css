@@ -1,3 +1,7 @@
+.form {
+  width: 100%;
+}
+
 .form__text-inputs {
   padding: 0;
   margin: 0 0 16px;
@@ -17,7 +21,6 @@
 
 .form__input {
   box-sizing: border-box;
-  width: 396px;
   padding: 15px;
   border: none;
   border-radius: 8px;
@@ -88,4 +91,20 @@
 .form__submit:hover {
   cursor: pointer;
   opacity: .8;
+}
+
+@media screen and (max-width: 425px) {
+  .form__text-inputs {
+    margin: 0 0 14px;
+  }
+
+  .form__input-error {
+    margin-bottom: 157px;
+  }
+
+  .form__submit {
+    padding: 15px 0;
+    font-size: 12px;
+    line-height: 15px;
+  }
 }

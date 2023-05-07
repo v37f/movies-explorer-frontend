@@ -18,10 +18,10 @@ function Profile() {
         <h2 className="profile__greetings">Привет, {userName}!</h2>
         <form className="profile__form">
           <fieldset className="profile__form-fieldset" disabled={isFormDisabled} >
-            <label className="profile__form-label" for="username">
+            <label className="profile__form-label" htmlFor="username">
               <span className="profile__form-label-span">Имя</span>
               <input className="profile__form-input" type="text" id="username" name="username" defaultValue={userName} /></label>
-            <label className="profile__form-label" for="email">
+            <label className="profile__form-label" htmlFor="email">
               <span className="profile__form-label-span">E-mail</span>
               <input className="profile__form-input" type="email" id="email" name="email" defaultValue={email} />
             </label>

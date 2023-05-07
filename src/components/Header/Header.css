@@ -104,3 +104,28 @@
   background-repeat: no-repeat;
   background-position: center;
 }
+
+@media screen and (max-width: 1279px) {
+  .header__container {
+    max-width: 1140px;
+    width: calc(100% - (30px * 2));
+    min-width: 397px;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .header__container {
+    width: calc(100% - (14px * 2));
+    min-width: 292px;
+  }
+
+  .header__link_type_login {
+    font-size: 10px;
+    margin-right: 14px;
+  }
+
+  .header__link_style_green-box {
+    width: 54px;
+    height: 26px;
+  }
+}

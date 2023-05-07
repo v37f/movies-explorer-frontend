@@ -27,7 +27,7 @@ function App() {
                           
   useEffect(() => {
     if (pathname==="/") {
-      setIsLoggedIn(false);
+      setIsLoggedIn(true);
       return;
     }
     return setIsLoggedIn(true);

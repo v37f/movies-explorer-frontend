@@ -102,6 +102,10 @@
     margin-bottom: 157px;
   }
 
+  .form__input-error_type_login {
+    margin-bottom: 245px;
+  }
+
   .form__submit {
     padding: 15px 0;
     font-size: 12px;

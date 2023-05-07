@@ -15,6 +15,23 @@
   background-color: #073042;
 }
 
+.header__button {
+  background: url('../../images/burger.svg');
+  background-size: 28px 23px;
+  width: 28px;
+  height: 23px;
+  box-shadow: none;
+  border: none;
+  margin-right: 8px;
+  padding: 0;
+  transition: opacity .4s ease;
+}
+
+.header__button:hover {
+  cursor: pointer;
+  opacity: .8;
+}
+
 .header__links {
   display: flex;
   justify-content: space-between;
@@ -117,6 +134,12 @@
   .header__container {
     width: calc(100% - (14px * 2));
     min-width: 292px;
+  }
+
+  .header__button {
+    background-size: 22px 20.5px;
+    width: 22px;
+    height: 20.5px;
   }
 
   .header__link_type_login {

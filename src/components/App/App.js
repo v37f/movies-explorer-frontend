@@ -9,13 +9,17 @@ import Login from "../Login/Login";
 import Footer from "../Footer/Footer";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import ErrorPopup from "../ErrorPopup/ErrorPopup";
+import SideMenu from "../SideMenu/SideMenu";
+import { useMediaQuery } from "../../hooks/useMediaQuery"
 import { useLocation, Route, Routes } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 function App() {
   const { pathname } = useLocation();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
   const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false);
+  const isSmallScreen = useMediaQuery('(max-width: 800px)');
   const isHeaderVisible = pathname === "/" ||
                           pathname === "/movies" ||
                           pathname === "/saved-movies" ||
@@ -27,7 +31,7 @@ function App() {
                           
   useEffect(() => {
     if (pathname==="/") {
-      setIsLoggedIn(true);
+      setIsLoggedIn(false);
       return;
     }
     return setIsLoggedIn(true);
@@ -36,6 +40,14 @@ function App() {
   function closePopup() {
     setIsErrorPopupOpen(false)
   }
+
+  function toggleSideMenu() {
+    setIsSideMenuOpen(!isSideMenuOpen);
+  }
+
+  useEffect(() => {
+    setIsSideMenuOpen(false);
+  }, [isSmallScreen]);
 
   useEffect(() => {
     function closePopupsByEscape(evt) {
@@ -53,7 +65,7 @@ function App() {
 
   return (
     <div className="App">
-      {isHeaderVisible && <Header isLoggedIn={isLoggedIn} />}
+      {isHeaderVisible && <Header isLoggedIn={isLoggedIn} isSmallScreen={isSmallScreen} handleMenuClick={toggleSideMenu} />}
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/movies" element={<Movies />} />
@@ -64,6 +76,7 @@ function App() {
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
       {isFooterVisible && <Footer />}
+      <SideMenu isOpen={isSideMenuOpen} onCloseClick={toggleSideMenu}/>
       <ErrorPopup 
         isOpen={isErrorPopupOpen} 
         onClose={closePopup} 

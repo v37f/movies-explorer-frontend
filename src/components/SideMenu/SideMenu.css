@@ -1,0 +1,136 @@
+.side-menu__cover {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .3);
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility .5s, opacity .5s linear;
+  z-index: 1;
+}
+
+.side-menu_opened>.side-menu__cover {
+  opacity: 1;
+  visibility: visible;
+}
+
+.side-menu__container {
+  position: fixed;
+  top: 0;
+  right: 0;
+  max-width: 520px;
+  width: 0;
+  height: 100vh;
+  box-sizing: border-box;
+  background: #202020;
+  padding: 159px 0 92px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 2;
+  transition: width .3s linear;
+  overflow-x: hidden;
+}
+
+.side-menu_opened>.side-menu__container {
+  width: 100%;
+}
+
+.side-menu__button {
+  background: url('../../images/side-close.svg');
+  width: 18px;
+  height: 18px;
+  position: absolute;
+  top: 29px;
+  right: 29px;
+  box-shadow: none;
+  border: none;
+  padding: 0;
+  transition: opacity .4s ease;
+}
+
+.side-menu__button:hover {
+  cursor: pointer;
+  opacity: .8;
+}
+
+.side-menu__menu {
+  list-style-type: none;
+  padding: 0;
+  margin: 0 0 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  min-width: 300px;
+}
+
+.side-menu__link {
+  font-weight: 500;
+  color: #fff;
+  transition: opacity .4s ease;
+}
+
+.side-menu__link_type_navlink {
+  display: block;
+  min-height: 28px;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: center;
+  padding-bottom: 4px;
+  transition: opacity .4s ease;
+}
+
+.side-menu__link_type_navlink.active {
+  border-bottom: 2px solid #fff;
+}
+
+.side-menu__link:hover {
+  opacity: .7;
+}
+
+.side-menu__link_type_account {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 17px;
+}
+
+.side-menu__link_type_account::after {
+  content: '';
+  width: 26px;
+  height: 30px;
+  border-radius: 4px;
+  background-color: #313131;
+  background-image: url('../../images/account-icon.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+@media screen and (max-width: 425px) {
+  .side-menu__container {
+    padding: 144px 0 48px;
+  }
+
+  .side-menu__button {
+    top: 20px;
+    right: 20px;
+  }
+
+  .side-menu__menu {
+    gap: 15px;
+  }
+
+  .side-menu__link_type_navlink {
+    min-height: 31px;
+    padding-bottom: 7px;
+  }
+}

@@ -11,7 +11,6 @@ function SearchForm() {
           id="movieTitle"
           name="movieTitle"
           placeholder="Фильм"
-          noValidate
         />
         <button type="submit" className="search-form__button" />
       </fieldset>

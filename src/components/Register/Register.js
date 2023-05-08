@@ -25,7 +25,11 @@ function Register({ onSubmit }) {
             type="text" 
             id="username" 
             name="username" 
-            defaultValue={values.userName} 
+            minLength="2" 
+            maxLength="30" 
+            required 
+            defaultValue={values.userName}
+            placeholder="Введите имя" 
           />
           <label className="form__input-label" htmlFor="email">E-mail</label>
           <input 
@@ -33,7 +37,9 @@ function Register({ onSubmit }) {
             type="email" 
             id="email" 
             name="email" 
+            required 
             defaultValue={values.email} 
+            placeholder="Введите email" 
           />
           <label className="form__input-label" htmlFor="password">Пароль</label>
           <input 
@@ -41,7 +47,9 @@ function Register({ onSubmit }) {
             type="password" 
             id="password" 
             name="password" 
+            required 
             defaultValue={values.password} 
+            placeholder="Введите пароль" 
           />
           <span className={`form__input-error ${Object.keys(errors).length ? ' form__input-error_visible' : ''}`}>Что-то пошло не так... </span>
           <button className="form__submit" type="submit">Зарегистрироваться</button>

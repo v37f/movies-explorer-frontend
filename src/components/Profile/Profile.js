@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./Profile.css";
 
-function Profile() {
+function Profile({ onSignOut }) {
   const userName = "Владимир"
   const email = "randim@yandex.ru"
 
@@ -34,7 +34,7 @@ function Profile() {
           {!isFormDisabled && <button className="profile__form-button" type="submit" onClick={handleEditClick} disabled={isButtonDisabled} >Сохранить</button>}
         </form>
         {isFormDisabled && <button className="profile__button" type="button" onClick={handleEditClick} >Редактировать</button>}
-        {isFormDisabled && <button className="profile__button profile__button_color_red" type="button">Выйти из аккаунта</button>}
+        {isFormDisabled && <button className="profile__button profile__button_color_red" type="button" onClick={onSignOut} >Выйти из аккаунта</button>}
       </div>
     </main>
   );

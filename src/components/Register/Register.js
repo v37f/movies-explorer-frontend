@@ -2,7 +2,7 @@ import FormContainer from "../FormContainer/FormContainer";
 import Form from "../Form/Form";
 import "./Register.css";
 
-function Register() {
+function Register({ onSubmit }) {
 
   const values = {
     userName: "Владимир",
@@ -18,7 +18,7 @@ function Register() {
   return (
     <main className="register">
       <FormContainer title="Добро пожаловать!" text="Уже зарегистрированы?" linkText="Войти" linkPath="/signin" >
-        <Form>
+        <Form onSubmit={onSubmit} formName="register-form" >
           <label className="form__input-label" htmlFor="username">Имя</label>
           <input 
             className={`form__input ${errors.userName ? ' form__input_invalid' : ''}`} 

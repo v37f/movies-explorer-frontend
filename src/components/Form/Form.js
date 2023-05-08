@@ -1,9 +1,9 @@
 import "./Form.css";
 
 
-function Form({ children }) {
+function Form({ children, onSubmit, formName}) {
   return (
-    <form className="form">
+    <form action="#" className="form" onSubmit={onSubmit} name={formName}>
       <fieldset className="form__text-inputs">
         {children}
       </fieldset>

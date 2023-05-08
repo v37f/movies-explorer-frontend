@@ -2,7 +2,7 @@ import FormContainer from "../FormContainer/FormContainer";
 import Form from "../Form/Form";
 import "./Login.css";
 
-function Login() {
+function Login({ onSubmit }) {
 
   const values = {
     email: "random@random.ru",
@@ -17,7 +17,7 @@ function Login() {
   return (
     <main className="login">
       <FormContainer title="Рады видеть!" text="Ещё не зарегистрированы?" linkText="Регистрация" linkPath="/signup" >
-        <Form>
+        <Form onSubmit={onSubmit} formName="register-form">
           <label className="form__input-label" htmlFor="email">E-mail</label>
           <input 
             className={`form__input ${errors.email ? ' form__input_invalid' : ''}`} 

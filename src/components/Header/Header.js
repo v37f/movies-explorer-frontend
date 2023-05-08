@@ -10,7 +10,7 @@ function Header({ isLoggedIn, isSmallScreen, handleMenuClick }) {
     <header className={"header" + (pathname==="/" ? " header_color_blue" : "")}>
       <div className="header__container">
         <Logo />
-        <div className={"header__links" + (pathname==="/" || isSmallScreen ? " header__links_position_right" : "")}>
+        <div className={"header__links" + (pathname==="/" || !isLoggedIn || isSmallScreen ? " header__links_position_right" : "")}>
           {isLoggedIn
             ? isSmallScreen 
               ? <button className="header__button" type="button" onClick={handleMenuClick} />

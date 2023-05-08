@@ -29,13 +29,13 @@ function App() {
                           pathname === "/movies" ||
                           pathname === "/saved-movies";
                           
-  useEffect(() => {
-    if (pathname==="/") {
-      setIsLoggedIn(false);
-      return;
-    }
-    return setIsLoggedIn(true);
-  }, [pathname]);
+  // useEffect(() => {
+  //   if (pathname==="/") {
+  //     setIsLoggedIn(false);
+  //     return;
+  //   }
+  //   return setIsLoggedIn(true);
+  // }, [pathname]);
 
   function closePopup() {
     setIsErrorPopupOpen(false)
@@ -43,6 +43,16 @@ function App() {
 
   function toggleSideMenu() {
     setIsSideMenuOpen(!isSideMenuOpen);
+  }
+
+  function handleLogin(evt) {
+    evt.preventDefault();
+    setIsLoggedIn(true);
+  }
+
+  function signOut(evt) {
+    evt.preventDefault();
+    setIsLoggedIn(false);
   }
 
   useEffect(() => {
@@ -70,9 +80,9 @@ function App() {
         <Route path="/" element={<Main />} />
         <Route path="/movies" element={<Movies />} />
         <Route path="/saved-movies" element={<SavedMovies />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/signup" element={<Register />} />
-        <Route path="/signin" element={<Login />} />
+        <Route path="/profile" element={<Profile onSignOut={signOut} />} />
+        <Route path="/signup" element={<Register onSubmit={handleLogin} />} />
+        <Route path="/signin" element={<Login onSubmit={handleLogin} />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
       {isFooterVisible && <Footer />}

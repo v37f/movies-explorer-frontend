@@ -1,9 +1,11 @@
 import "./MoviesCard.css";
-import imagePH from "../../images/movie-image-PH.png"
+import { IMAGE_BASE_URL } from '../../utils/Constants';
+import { formatTime } from "../../utils/Utils";
 import { useState } from "react";
 import { useLocation } from 'react-router-dom';
 
-function MoviesCard() {
+
+function MoviesCard({ movie }) {
   const [isSaved, setIsSaved] = useState(false);
   const { pathname } = useLocation();
 
@@ -22,10 +24,10 @@ function MoviesCard() {
           <button className={saveButtonClassName} type="button" aria-label="Сохранить" onClick={handleSaveClick} /> :
           <button className="movies-card__button movies-card__button_type_delete" type="button" aria-label="Удалить" />
       }
-      <img className="movies-card__image" src={imagePH} alt="НАЗВАНИЕ_ФИЛЬМА" />
+      <img className="movies-card__image" src={`${IMAGE_BASE_URL}${movie.image.url}`} alt={movie.nameRU} />
       <div className="movies-card__text-container">
-        <h2 className="movies-card__title">Gimme Danger: История Игги и The Stooges</h2>
-        <p className="movies-card__duration">1ч 27м</p>
+        <h2 className="movies-card__title">{movie.nameRU}</h2>
+        <p className="movies-card__duration">{formatTime(movie.duration)}</p>
       </div>
     </li>
   );

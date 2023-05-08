@@ -4,23 +4,14 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import MoviesCard from "../MovieCard/MoviesCard";
 import More from "../More/More";
 
-function Movies() {
+function Movies({ onSearchSubmit, initialMovies }) {
   return (
     <div className="movies">
-      <SearchForm />
+      <SearchForm onSearchSubmit={onSearchSubmit} />
       <MoviesCardList>
-        <MoviesCard />
-        <MoviesCard />
-        <MoviesCard />
-        <MoviesCard />
-        <MoviesCard />
-        <MoviesCard />
-        <MoviesCard />
-        <MoviesCard />
-        <MoviesCard />
-        <MoviesCard />
-        <MoviesCard />
-        <MoviesCard />
+        {initialMovies.map(movie => (
+          <MoviesCard movie={movie} key={movie.id} />
+        ))}
       </MoviesCardList>
       <More />
     </div>

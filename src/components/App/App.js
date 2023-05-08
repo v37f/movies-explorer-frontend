@@ -13,8 +13,12 @@ import SideMenu from "../SideMenu/SideMenu";
 import { useMediaQuery } from "../../hooks/useMediaQuery"
 import { useLocation, Route, Routes } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { getInitialMovies } from "../../utils/MoviesApi"
 
 function App() {
+  const [initialMovies, setInitialMovies] = useState([]);
+
+
   const { pathname } = useLocation();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
@@ -28,14 +32,6 @@ function App() {
   const isFooterVisible = pathname === "/" ||
                           pathname === "/movies" ||
                           pathname === "/saved-movies";
-                          
-  // useEffect(() => {
-  //   if (pathname==="/") {
-  //     setIsLoggedIn(false);
-  //     return;
-  //   }
-  //   return setIsLoggedIn(true);
-  // }, [pathname]);
 
   function closePopup() {
     setIsErrorPopupOpen(false)
@@ -54,6 +50,7 @@ function App() {
     evt.preventDefault();
     setIsLoggedIn(false);
   }
+  
 
   useEffect(() => {
     setIsSideMenuOpen(false);
@@ -73,12 +70,27 @@ function App() {
     }
   }, [isErrorPopupOpen]);
 
+  //level-3
+  function handleSearchClick() {
+    getInitialMovies()
+      .then((movies) => {
+        setInitialMovies(movies);
+        console.log(movies)
+      })
+      .catch((error) => {
+        console.log(`Ошибка: ${error.status}`);
+        error.json().then((errorData) => {
+          console.log(errorData.message);
+        })
+      })
+  }
+
   return (
     <div className="App">
       {isHeaderVisible && <Header isLoggedIn={isLoggedIn} isSmallScreen={isSmallScreen} handleMenuClick={toggleSideMenu} />}
       <Routes>
         <Route path="/" element={<Main />} />
-        <Route path="/movies" element={<Movies />} />
+        <Route path="/movies" element={<Movies onSearchSubmit={handleSearchClick} initialMovies={initialMovies} />} />
         <Route path="/saved-movies" element={<SavedMovies />} />
         <Route path="/profile" element={<Profile onSignOut={signOut} />} />
         <Route path="/signup" element={<Register onSubmit={handleLogin} />} />

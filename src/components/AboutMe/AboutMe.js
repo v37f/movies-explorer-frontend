@@ -15,7 +15,7 @@ function AboutMe() {
                 С 2015 года работаю инженером, занимался разработкой антенно-фидерных устройств и систем мониторинга Мирового океана.
                 Веб-разработкой занимаюсь с 2022 года. В вебе меня привлекает наличие интересных, актуальных задач и возможность личного 
                 развития как технического специалиста.</p>
-            <a className="about-me__link" href="https://github.com/v37f">Github</a>
+            <a className="about-me__link" href="https://github.com/v37f" target="_blank" rel="noreferrer">Github</a>
           </div>
           <img className="about-me__photo" src={MyPhoto} alt="Моё фото" />
         </div>

@@ -1,6 +1,6 @@
 import { MOVIES_BASE_URL } from './Constants';
 
-const getResponse = (res) => {
+const checkResponse = (res) => {
   return res.ok ? res.json() : Promise.reject(res);
 };
 
@@ -12,5 +12,5 @@ export const getInitialMovies = () => {
       "Content-Type": "application/json",
     },
   })
-  .then(getResponse);
+  .then(checkResponse);
 };

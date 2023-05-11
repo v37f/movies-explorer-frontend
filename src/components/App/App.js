@@ -1,4 +1,5 @@
 import "./App.css";
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
 import Movies from "../Movies/Movies";
@@ -11,18 +12,21 @@ import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import ErrorPopup from "../ErrorPopup/ErrorPopup";
 import SideMenu from "../SideMenu/SideMenu";
 import { useMediaQuery } from "../../hooks/useMediaQuery"
-import { useLocation, Route, Routes } from "react-router-dom";
+import { useLocation, Route, Routes, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getInitialMovies } from "../../utils/MoviesApi"
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import mainApi from '../../utils/MainApi';
 
 function App() {
   const [initialMovies, setInitialMovies] = useState([]);
-
-
+  const [fetchErrorMessage, setFetchErrorMessage] = useState('');
+  const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
   const { pathname } = useLocation();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
-  const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false);
+  const navigate = useNavigate();
   const isSmallScreen = useMediaQuery('(max-width: 800px)');
   const isHeaderVisible = pathname === "/" ||
                           pathname === "/movies" ||
@@ -33,24 +37,31 @@ function App() {
                           pathname === "/movies" ||
                           pathname === "/saved-movies";
 
-  function closePopup() {
-    setIsErrorPopupOpen(false)
-  }
 
-  function toggleSideMenu() {
-    setIsSideMenuOpen(!isSideMenuOpen);
-  }
+  //level-3
+  useEffect(() => {
+    checkToken();
+  }, []);
 
-  function handleLogin(evt) {
-    evt.preventDefault();
-    setIsLoggedIn(true);
-  }
-
-  function signOut(evt) {
-    evt.preventDefault();
-    setIsLoggedIn(false);
-  }
-  
+  useEffect(() => {
+    if (isLoggedIn) {
+      mainApi.getUserInfo()
+      .then(userInfo => {
+        setCurrentUser(userInfo);
+      })
+      .catch((error) => {
+        error.json().then((errorData) => {
+          let errorMessage = errorData.message;
+          if (errorData.validation) {
+            errorMessage = errorData.validation.body.message;
+          }
+          setFetchErrorMessage(errorMessage);
+          console.log(errorMessage);
+          setIsErrorPopupOpen(true);
+        })
+      })
+    }
+  }, [isLoggedIn]);
 
   useEffect(() => {
     setIsSideMenuOpen(false);
@@ -70,7 +81,6 @@ function App() {
     }
   }, [isErrorPopupOpen]);
 
-  //level-3
   function handleSearchClick() {
     getInitialMovies()
       .then((movies) => {
@@ -85,26 +95,116 @@ function App() {
       })
   }
 
+  function checkToken() {
+    const jwt = localStorage.getItem("jwt");
+    if (jwt) {
+      setIsLoggedIn(true);
+    }
+  }
+
+  function handleRegister(email, password, name) {
+    return mainApi.register(email, password, name)
+    .then(() => {
+      handleLogin(email, password);
+    })
+    .catch((error) => {
+      error.json().then((errorData) => {
+        let errorMessage = errorData.message;
+        if (errorData.validation) {
+          errorMessage = errorData.validation.body.message;
+        }
+        setFetchErrorMessage(errorMessage);
+        console.log(errorMessage);
+        setIsErrorPopupOpen(true);
+      })
+    })
+  }
+
+  function handleLogin(email, password) {
+    return mainApi.login(email, password)
+      .then((data) => {
+        if (data.token) {
+          localStorage.setItem("jwt", data.token);
+          mainApi.setToken();
+          setIsLoggedIn(true);
+          navigate("/movies");
+        }
+      })
+      .catch((error) => {
+        error.json()
+          .then((errorData) => {
+            let errorMessage = errorData.message;
+            if (errorData.validation) {
+              errorMessage = errorData.validation.body.message;
+            }
+            setFetchErrorMessage(errorMessage);
+            console.log(errorMessage);
+            setIsErrorPopupOpen(true);
+          })
+        })
+  }
+
+  function signOut() {
+    localStorage.removeItem("jwt");
+    navigate("/");
+    setIsLoggedIn(false);
+    setCurrentUser(null);
+  }  
+
+  function closePopup() {
+    setIsErrorPopupOpen(false)
+  }
+
+  function toggleSideMenu() {
+    setIsSideMenuOpen(!isSideMenuOpen);
+  }
+
   return (
-    <div className="App">
-      {isHeaderVisible && <Header isLoggedIn={isLoggedIn} isSmallScreen={isSmallScreen} handleMenuClick={toggleSideMenu} />}
-      <Routes>
-        <Route path="/" element={<Main />} />
-        <Route path="/movies" element={<Movies onSearchSubmit={handleSearchClick} initialMovies={initialMovies} />} />
-        <Route path="/saved-movies" element={<SavedMovies />} />
-        <Route path="/profile" element={<Profile onSignOut={signOut} />} />
-        <Route path="/signup" element={<Register onSubmit={handleLogin} />} />
-        <Route path="/signin" element={<Login onSubmit={handleLogin} />} />
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
-      {isFooterVisible && <Footer />}
-      <SideMenu isOpen={isSideMenuOpen} onCloseClick={toggleSideMenu}/>
-      <ErrorPopup 
-        isOpen={isErrorPopupOpen} 
-        onClose={closePopup} 
-        message="При авторизации произошла ошибка. Токен не передан или передан не в том формате." 
-      />
-    </div>
+    <CurrentUserContext.Provider value={currentUser}>
+      <div className="App">
+        {isHeaderVisible && <Header isLoggedIn={isLoggedIn} isSmallScreen={isSmallScreen} handleMenuClick={toggleSideMenu} />}
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route 
+            path="/movies" 
+            element={
+              <ProtectedRoute 
+              isLoggedIn={isLoggedIn}
+              component={Movies}
+              onSearchSubmit={handleSearchClick}
+              initialMovies={initialMovies} />
+            } 
+          />
+          <Route 
+            path="/saved-movies" 
+            element={
+              <ProtectedRoute 
+              isLoggedIn={isLoggedIn}
+              component={SavedMovies} />
+            } 
+          />
+          <Route 
+            path="/profile" 
+            element={
+              <ProtectedRoute 
+              isLoggedIn={isLoggedIn}
+              component={Profile}
+              onSignOut={signOut} />
+            } 
+          />
+          <Route path="/signup" element={<Register handleRegister={handleRegister} />} />
+          <Route path="/signin" element={<Login handleLogin={handleLogin} />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+        {isFooterVisible && <Footer />}
+        <SideMenu isOpen={isSideMenuOpen} onCloseClick={toggleSideMenu}/>
+        <ErrorPopup 
+          isOpen={isErrorPopupOpen} 
+          onClose={closePopup} 
+          message={fetchErrorMessage} 
+        />
+      </div>
+    </CurrentUserContext.Provider>
   );
 }
 

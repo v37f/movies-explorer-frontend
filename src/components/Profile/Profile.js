@@ -1,13 +1,12 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import "./Profile.css";
 
 function Profile({ onSignOut }) {
-  const userName = "Владимир"
-  const email = "randim@yandex.ru"
+  const currentUser = useContext(CurrentUserContext);
 
   const [isFormDisabled, setIsFormDisabled] = useState(true)
   const isButtonDisabled = false;
-
   function handleEditClick() {
     setIsFormDisabled(!isFormDisabled);
   }
@@ -15,7 +14,7 @@ function Profile({ onSignOut }) {
   return (
     <main className="profile">
       <div className="profile__container">
-        <h2 className="profile__greetings">Привет, {userName}!</h2>
+        <h2 className="profile__greetings">Привет, {currentUser?.name}!</h2>
         <form className="profile__form" action="#" name="profile-form" onSubmit={handleEditClick} >
           <fieldset className="profile__form-fieldset" disabled={isFormDisabled} >
             <label className="profile__form-label" htmlFor="username">
@@ -28,7 +27,7 @@ function Profile({ onSignOut }) {
                 minLength="2" 
                 maxLength="30" 
                 required 
-                defaultValue={userName} 
+                defaultValue={currentUser?.name} 
                 placeholder="Введите имя" 
               />
             </label>
@@ -40,7 +39,7 @@ function Profile({ onSignOut }) {
                 id="email" 
                 name="email" 
                 required 
-                defaultValue={email} 
+                defaultValue={currentUser?.email} 
                 placeholder="Введите email" 
               />
             </label>

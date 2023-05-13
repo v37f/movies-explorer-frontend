@@ -26,6 +26,7 @@ function App() {
   const { pathname } = useLocation();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
+  const [isProfileFormDisabled, setIsProfileFormDisabled] = useState(true);
   const navigate = useNavigate();
   const isSmallScreen = useMediaQuery('(max-width: 800px)');
   const isHeaderVisible = pathname === "/" ||
@@ -151,6 +152,28 @@ function App() {
     setCurrentUser(null);
   }  
 
+  function handleUpdateUserInfo(email, name) {
+    return mainApi.updateUserInfo(email, name)
+      .then((userInfo) => {
+        setCurrentUser(userInfo);
+      })
+      .then(() => {
+        setIsProfileFormDisabled(true);
+      })
+      .catch((error) => {
+        error.json()
+          .then((errorData) => {
+            let errorMessage = errorData.message;
+            if (errorData.validation) {
+              errorMessage = errorData.validation.body.message;
+            }
+            setFetchErrorMessage(errorMessage);
+            console.log(errorMessage);
+            setIsErrorPopupOpen(true);
+          })
+        })
+  }
+
   function closePopup() {
     setIsErrorPopupOpen(false)
   }
@@ -189,7 +212,10 @@ function App() {
               <ProtectedRoute 
               isLoggedIn={isLoggedIn}
               component={Profile}
-              onSignOut={signOut} />
+              onSignOut={signOut}
+              onUpdateUser={handleUpdateUserInfo}
+              isFormDisabled={isProfileFormDisabled}
+              setIsFormDisabled={setIsProfileFormDisabled} />
             } 
           />
           <Route path="/signup" element={<Register handleRegister={handleRegister} />} />

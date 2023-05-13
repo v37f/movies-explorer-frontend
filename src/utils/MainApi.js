@@ -14,17 +14,6 @@ class Api {
     return fetch(url, options).then(this._checkResponse);
   }
 
-  sregister = (email, password, name) => {
-    return fetch(`${MAIN_BASE_URL}/signup`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password, name }),
-    })
-    .then(this._checkResponse);
-  };
-
   register(email, password, name) {
     return this._request(`${this._baseUrl}/signup`, {
       method: "POST",
@@ -48,6 +37,14 @@ class Api {
   getUserInfo() {
     return this._request(`${this._baseUrl}/users/me`, {
         headers: this._headers
+    })
+  }
+
+  updateUserInfo({ email, name }) {
+    return this._request(`${this._baseUrl}/users/me`, {
+      method: 'PATCH',
+      headers: this._headers,
+      body: JSON.stringify({ email, name })
     })
   }
 }

@@ -5,7 +5,7 @@ const checkResponse = (res) => {
 };
 
 export const getInitialMovies = () => {
-  return fetch(`${MOVIES_BASE_URL}`, {
+  return fetch(`${MOVIES_BASE_URL}/beatfilm-movies`, {
     method: "GET",
     headers: {
       Accept: "application/json",

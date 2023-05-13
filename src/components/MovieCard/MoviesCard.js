@@ -1,5 +1,5 @@
 import "./MoviesCard.css";
-import { IMAGE_BASE_URL } from '../../utils/Constants';
+import { MOVIES_BASE_URL } from '../../utils/Constants';
 import { formatTime } from "../../utils/Utils";
 import { useState } from "react";
 import { useLocation } from 'react-router-dom';
@@ -24,7 +24,7 @@ function MoviesCard({ movie }) {
           <button className={saveButtonClassName} type="button" aria-label="Сохранить" onClick={handleSaveClick} /> :
           <button className="movies-card__button movies-card__button_type_delete" type="button" aria-label="Удалить" />
       }
-      <img className="movies-card__image" src={`${IMAGE_BASE_URL}${movie.image.url}`} alt={movie.nameRU} />
+      <img className="movies-card__image" src={`${MOVIES_BASE_URL}${movie.image.url}`} alt={movie.nameRU} />
       <div className="movies-card__text-container">
         <h2 className="movies-card__title">{movie.nameRU}</h2>
         <p className="movies-card__duration">{formatTime(movie.duration)}</p>

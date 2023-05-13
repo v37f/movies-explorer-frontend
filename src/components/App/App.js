@@ -85,7 +85,7 @@ function App() {
     getInitialMovies()
       .then((movies) => {
         setInitialMovies(movies);
-        console.log(movies)
+        // console.log(movies)
       })
       .catch((error) => {
         console.log(`Ошибка: ${error.status}`);

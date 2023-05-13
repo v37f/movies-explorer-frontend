@@ -1,4 +1,6 @@
-.error-popup {
+.info-popup {
+  font-family: 'Inter', Arial, sans-serif;
+  font-style: normal;
   position: fixed;
   top: 0;
   left: 0;
@@ -14,13 +16,12 @@
   transition: visibility .5s, opacity .5s linear;
 }
 
-.error-popup_opened {
+.info-popup_opened {
   visibility: visible;
   opacity: 1;
 }
 
-
-.error-popup__container {
+.info-popup__container {
   position: relative;
   box-sizing: border-box;
   width: 430px;
@@ -35,7 +36,7 @@
   align-items: center;
 }
 
-.error-popup__close {
+.info-popup__close {
   width: 32px;
   height: 32px;
   padding: 0;
@@ -45,24 +46,17 @@
   box-shadow: none;
   border: none;
   position: absolute;
-  top: calc(-8px - 32px);
+  top: calc(-8px - 32px); /* расстоянгие от контейнера до крестика(8px) минус высота самого крестика(32px) */
   right: calc(-8px - 32px);
   transition: opacity .4s ease;
   cursor: pointer;
 }
 
-.error-popup__close:hover {
-  opacity: .8;
+.info-popup__close:hover {
+  opacity: .6;
 }
 
-.error-popup__background-image {
-  width: 120px;
-  height: 120px;
-  background-image: url('../../images/fail.svg');
-  margin-bottom: 32px;
-}
-
-.error-popup__title {
+.info-popup__title {
   margin: 0;
   text-align: center;
   padding: 0;
@@ -72,13 +66,19 @@
   max-width: 330px;
 }
 
+.info-popup__image {
+  width: 120px;
+  margin-bottom: 32px;
+}
+
+
 @media screen and (max-width: 547px) {
-  .error-popup__container {
+  .info-popup__container {
     max-width: 430px;
     width: calc(100% - (20px * 2));
   }
 
-  .error-popup__close {
+  .info-popup__close {
     width: 20px;
     height: 20px;
     top: calc(-16px - 20px);
@@ -87,19 +87,18 @@
 }
 
 @media screen and (max-width: 425px) {
-  .error-popup__container {
+  .info-popup__container {
     padding: 50px 18px;
   }
 
-  .error-popup__image {
-    margin-bottom: 40px;
-  }
-
-  .error-popup__title {
+  .info-popup__title {
+    margin: 0 0 75px 0;
     max-width: 238px;
     font-size: 20px;
     line-height: 24px;
   }
+
+  .info-popup__image {
+    margin-bottom: 40px;
+  }
 }
-
-

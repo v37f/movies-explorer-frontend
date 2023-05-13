@@ -9,7 +9,7 @@ import Register from "../Register/Register";
 import Login from "../Login/Login";
 import Footer from "../Footer/Footer";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
-import ErrorPopup from "../ErrorPopup/ErrorPopup";
+import InfoPopup from "../InfoPopup/InfoPopup";
 import SideMenu from "../SideMenu/SideMenu";
 import { useMediaQuery } from "../../hooks/useMediaQuery"
 import { useLocation, Route, Routes, useNavigate } from "react-router-dom";
@@ -18,10 +18,17 @@ import { getInitialMovies } from "../../utils/MoviesApi"
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import mainApi from '../../utils/MainApi';
 
+import successImagePath from '../../images/success.svg';
+import failImagePath from '../../images/fail.svg';
+import { UPDATE_SUCCESS_MESSAGE } from '../../utils/Constants';
+
 function App() {
   const [initialMovies, setInitialMovies] = useState([]);
-  const [fetchErrorMessage, setFetchErrorMessage] = useState('');
-  const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false);
+  const [infoPopupData, setInfoPopupData] = useState({
+    image: '',
+    message: ''
+  });
+  const [isInfoPopupOpen, setIsInfoPopupOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
   const { pathname } = useLocation();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -56,9 +63,11 @@ function App() {
           if (errorData.validation) {
             errorMessage = errorData.validation.body.message;
           }
-          setFetchErrorMessage(errorMessage);
-          console.log(errorMessage);
-          setIsErrorPopupOpen(true);
+          setInfoPopupData({
+            image: failImagePath,
+            message: errorMessage
+          });
+          setIsInfoPopupOpen(true);
         })
       })
     }
@@ -74,13 +83,13 @@ function App() {
         closePopup();
       }
     }
-    if(isErrorPopupOpen) { 
+    if(isInfoPopupOpen) { 
       document.addEventListener('keydown', closePopupsByEscape);
       return () => {
         document.removeEventListener('keydown', closePopupsByEscape);
       }
     }
-  }, [isErrorPopupOpen]);
+  }, [isInfoPopupOpen]);
 
   function handleSearchClick() {
     getInitialMovies()
@@ -114,9 +123,11 @@ function App() {
         if (errorData.validation) {
           errorMessage = errorData.validation.body.message;
         }
-        setFetchErrorMessage(errorMessage);
-        console.log(errorMessage);
-        setIsErrorPopupOpen(true);
+        setInfoPopupData({
+          image: failImagePath,
+          message: errorMessage
+        });
+        setIsInfoPopupOpen(true);
       })
     })
   }
@@ -132,17 +143,18 @@ function App() {
         }
       })
       .catch((error) => {
-        error.json()
-          .then((errorData) => {
-            let errorMessage = errorData.message;
-            if (errorData.validation) {
-              errorMessage = errorData.validation.body.message;
-            }
-            setFetchErrorMessage(errorMessage);
-            console.log(errorMessage);
-            setIsErrorPopupOpen(true);
-          })
+        error.json().then((errorData) => {
+          let errorMessage = errorData.message;
+          if (errorData.validation) {
+            errorMessage = errorData.validation.body.message;
+          }
+          setInfoPopupData({
+            image: failImagePath,
+            message: errorMessage
+          });
+          setIsInfoPopupOpen(true);
         })
+      })
   }
 
   function signOut() {
@@ -159,23 +171,30 @@ function App() {
       })
       .then(() => {
         setIsProfileFormDisabled(true);
+        setInfoPopupData({
+          image: successImagePath,
+          message: UPDATE_SUCCESS_MESSAGE
+        });
       })
       .catch((error) => {
-        error.json()
-          .then((errorData) => {
-            let errorMessage = errorData.message;
-            if (errorData.validation) {
-              errorMessage = errorData.validation.body.message;
-            }
-            setFetchErrorMessage(errorMessage);
-            console.log(errorMessage);
-            setIsErrorPopupOpen(true);
-          })
+        error.json().then((errorData) => {
+          let errorMessage = errorData.message;
+          if (errorData.validation) {
+            errorMessage = errorData.validation.body.message;
+          }
+          setInfoPopupData({
+            image: failImagePath,
+            message: errorMessage
+          });
         })
+      })
+      .finally(()=> {
+        setIsInfoPopupOpen(true);
+      });
   }
 
   function closePopup() {
-    setIsErrorPopupOpen(false)
+    setIsInfoPopupOpen(false)
   }
 
   function toggleSideMenu() {
@@ -224,10 +243,10 @@ function App() {
         </Routes>
         {isFooterVisible && <Footer />}
         <SideMenu isOpen={isSideMenuOpen} onCloseClick={toggleSideMenu}/>
-        <ErrorPopup 
-          isOpen={isErrorPopupOpen} 
+        <InfoPopup 
+          isOpen={isInfoPopupOpen} 
           onClose={closePopup} 
-          message={fetchErrorMessage} 
+          data={infoPopupData} 
         />
       </div>
     </CurrentUserContext.Provider>

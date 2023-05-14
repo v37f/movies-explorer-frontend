@@ -1,19 +1,31 @@
 import "./SearchForm.css";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import { useFormAndValidation } from "../../hooks/useFormAndValidation";
+import { useEffect, useState } from "react";
 
 function SearchForm({ onSearchSubmit }) {
+  const [isSearchButtonClicked, setIsSearhButtonClicked] = useState(false);
   const { values, handleChange, handleCheckboxChange } = useFormAndValidation({
     keyword: '',
     shortfilms: false,
   });
 
-  console.log(values);
+  useEffect(() => {
+    if (isSearchButtonClicked) {
+      onSearchSubmit(values.keyword, values.shortfilms);
+    }
+  }, [values.shortfilms]);
+
+  useEffect(() => {
+    setIsSearhButtonClicked(false);
+  }, [values.keyword]);
 
   function handleSearchClick(evt) {
     evt.preventDefault();
-    onSearchSubmit();
+    onSearchSubmit(values.keyword, values.shortfilms);
+    setIsSearhButtonClicked(true);
   }
+
   return (
     <form className="search-form" action="#" onSubmit={handleSearchClick} >
       <fieldset className="search-form__text-fieldset">
@@ -28,7 +40,7 @@ function SearchForm({ onSearchSubmit }) {
         />
         <button type="submit" className="search-form__button" />
       </fieldset>
-      <FilterCheckbox handleCheckboxChange={handleCheckboxChange} value={values.shortfilms} />
+      <FilterCheckbox onCheckboxChange={handleCheckboxChange} value={values.shortfilms} />
     </form>
   );
 }

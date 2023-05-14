@@ -17,6 +17,7 @@ import { useEffect, useState } from "react";
 import { getInitialMovies } from "../../utils/MoviesApi"
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import mainApi from '../../utils/MainApi';
+import { checkDurationIsLesser, checkForKeywordMatch } from '../../utils/Utils';
 
 import successImagePath from '../../images/success.svg';
 import failImagePath from '../../images/fail.svg';
@@ -24,6 +25,7 @@ import { UPDATE_SUCCESS_MESSAGE } from '../../utils/Constants';
 
 function App() {
   const [initialMovies, setInitialMovies] = useState([]);
+  const [filteredMovies, setFilteredMovies] = useState([]);
   const [infoPopupData, setInfoPopupData] = useState({
     image: '',
     message: ''
@@ -91,18 +93,36 @@ function App() {
     }
   }, [isInfoPopupOpen]);
 
-  function handleSearchClick() {
-    getInitialMovies()
-      .then((movies) => {
-        setInitialMovies(movies);
-        // console.log(movies)
-      })
-      .catch((error) => {
-        console.log(`Ошибка: ${error.status}`);
-        error.json().then((errorData) => {
-          console.log(errorData.message);
+  function handleMoviesSearch(keyword, shortfilms) {
+    if (initialMovies.length === 0) {
+      getInitialMovies()
+        .then((movies) => {
+          setInitialMovies(movies);
+          return movies;
         })
-      })
+        .then((movies) => {
+          filterMovies(movies, keyword, shortfilms)
+        })
+        .catch((error) => {
+          console.log(`Ошибка: ${error.status}`);
+          error.json().then((errorData) => {
+            console.log(errorData.message);
+          })
+        })
+    } else {
+      filterMovies(initialMovies, keyword, shortfilms);
+    }
+
+  }
+  
+  function filterMovies(movies, keyword, shortfilms ) {
+    setFilteredMovies(movies.filter(movie => {
+      if (shortfilms) {
+        return checkForKeywordMatch(movie, keyword) && checkDurationIsLesser(movie, 40);
+      } else {
+        return checkForKeywordMatch(movie, keyword);
+      }
+    }));
   }
 
   function checkToken() {
@@ -213,8 +233,8 @@ function App() {
               <ProtectedRoute 
               isLoggedIn={isLoggedIn}
               component={Movies}
-              onSearchSubmit={handleSearchClick}
-              initialMovies={initialMovies} />
+              onSearchSubmit={handleMoviesSearch}
+              movies={filteredMovies} />
             } 
           />
           <Route 

@@ -4,3 +4,21 @@ export const formatTime = (time) => {
   return  (hours ? `${hours}ч ` : "") + `${minutes}м`
 }
 
+export const checkDurationIsLesser = (movie, value) => {
+  return movie.duration <= value;
+}
+
+export const checkForKeywordMatch = (movie, keyword) => {
+  if (keyword === '*') {
+    return true;
+  } else {
+    const formatedKeyword = keyword?.toLowerCase().trim();
+    return movie.country.toLowerCase().includes(formatedKeyword)
+    || movie.description.toLowerCase().includes(formatedKeyword)
+    || movie.director.toLowerCase().includes(formatedKeyword)
+    || movie.director.toLowerCase().includes(formatedKeyword)
+    || movie.nameEN.toLowerCase().includes(formatedKeyword)
+    || movie.nameRU.toLowerCase().includes(formatedKeyword)
+    || movie.year.toLowerCase().includes(formatedKeyword);
+  }
+}

@@ -17,15 +17,17 @@ import { useEffect, useState } from "react";
 import { getInitialMovies } from "../../utils/MoviesApi"
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import mainApi from '../../utils/MainApi';
-import { checkDurationIsLesser, checkForKeywordMatch } from '../../utils/Utils';
+import { filterMovies } from '../../utils/Utils';
 
 import successImagePath from '../../images/success.svg';
 import failImagePath from '../../images/fail.svg';
-import { UPDATE_SUCCESS_MESSAGE } from '../../utils/Constants';
+import { UPDATE_SUCCESS_MESSAGE, KEYWORD_REQUIRED_MESSAGE, NOTHING_FOUND_MESSAGE, SOMETHING_WRONG_MESSAGE } from '../../utils/Constants';
 
 function App() {
   const [initialMovies, setInitialMovies] = useState([]);
   const [filteredMovies, setFilteredMovies] = useState([]);
+  const [noMoviesMessage, setNoMoviesMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const [infoPopupData, setInfoPopupData] = useState({
     image: '',
     message: ''
@@ -94,35 +96,37 @@ function App() {
   }, [isInfoPopupOpen]);
 
   function handleMoviesSearch(keyword, shortfilms) {
-    if (initialMovies.length === 0) {
-      getInitialMovies()
-        .then((movies) => {
-          setInitialMovies(movies);
-          return movies;
-        })
-        .then((movies) => {
-          filterMovies(movies, keyword, shortfilms)
-        })
-        .catch((error) => {
-          console.log(`Ошибка: ${error.status}`);
-          error.json().then((errorData) => {
-            console.log(errorData.message);
-          })
-        })
+    if (!keyword) {
+      setNoMoviesMessage(KEYWORD_REQUIRED_MESSAGE);
+      return;
     } else {
-      filterMovies(initialMovies, keyword, shortfilms);
+      if (initialMovies.length === 0) {
+        setIsLoading(true);
+        getInitialMovies()
+          .then((movies) => {
+            setInitialMovies(movies);
+            getSearchResult(movies, keyword, shortfilms);
+          })
+          .catch(() => {
+            setNoMoviesMessage(SOMETHING_WRONG_MESSAGE);
+          })
+          .finally(() => {
+            setIsLoading(false);
+          })
+      } else {
+        getSearchResult(initialMovies, keyword, shortfilms);
+      }
     }
-
   }
   
-  function filterMovies(movies, keyword, shortfilms ) {
-    setFilteredMovies(movies.filter(movie => {
-      if (shortfilms) {
-        return checkForKeywordMatch(movie, keyword) && checkDurationIsLesser(movie, 40);
-      } else {
-        return checkForKeywordMatch(movie, keyword);
-      }
-    }));
+  function getSearchResult(movies, keyword, shortfilms) {
+    const filteredMovies = filterMovies(movies, keyword, shortfilms);
+    setFilteredMovies(filteredMovies);
+    if(filteredMovies.length === 0) {
+      setNoMoviesMessage(NOTHING_FOUND_MESSAGE);
+    } else {
+      setNoMoviesMessage('');
+    }
   }
 
   function checkToken() {
@@ -234,7 +238,9 @@ function App() {
               isLoggedIn={isLoggedIn}
               component={Movies}
               onSearchSubmit={handleMoviesSearch}
-              movies={filteredMovies} />
+              movies={filteredMovies}
+              isLoading={isLoading}
+              noMoviesMessage={noMoviesMessage} />
             } 
           />
           <Route 

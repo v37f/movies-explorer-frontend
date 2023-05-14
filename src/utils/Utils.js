@@ -22,3 +22,13 @@ export const checkForKeywordMatch = (movie, keyword) => {
     || movie.year.toLowerCase().includes(formatedKeyword);
   }
 }
+
+export const filterMovies = (movies, keyword, shortfilms) => {
+  return movies.filter(movie => {
+    if (shortfilms) {
+      return checkForKeywordMatch(movie, keyword) && checkDurationIsLesser(movie, 40);
+    } else {
+      return checkForKeywordMatch(movie, keyword);
+    }
+  });
+}

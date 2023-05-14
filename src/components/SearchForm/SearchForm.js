@@ -11,7 +11,7 @@ function SearchForm({ onSearchSubmit }) {
   });
 
   useEffect(() => {
-    if (isSearchButtonClicked) {
+    if (isSearchButtonClicked && values.keyword) {
       onSearchSubmit(values.keyword, values.shortfilms);
     }
   }, [values.shortfilms]);

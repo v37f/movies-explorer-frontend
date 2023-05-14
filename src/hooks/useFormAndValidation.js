@@ -13,12 +13,17 @@ export function useFormAndValidation(defaultValues) {
     setIsValid(e.target.closest('form').checkValidity());
   };
 
+  const handleCheckboxChange = (e) => {
+    const {name} = e.target
+    setValues({...values, [name]: e.target.checked });
+  }
+
   const resetForm = useCallback((newValues = {}, newErrors = {}, newIsValid = false) => {
     setValues(newValues);
     setErrors(newErrors);
     setIsValid(newIsValid);
   }, [setValues, setErrors, setIsValid]);
 
-  return { values, handleChange, errors, isValid, resetForm, setValues, setIsValid };
+  return { values, handleChange, errors, isValid, resetForm, setValues, setIsValid, handleCheckboxChange };
 }
 

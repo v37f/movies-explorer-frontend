@@ -25,7 +25,7 @@ import { UPDATE_SUCCESS_MESSAGE, KEYWORD_REQUIRED_MESSAGE, NOTHING_FOUND_MESSAGE
 
 function App() {
   const [initialMovies, setInitialMovies] = useState([]);
-  const [filteredMovies, setFilteredMovies] = useState([]);
+  const [foundMovies, setFoundMovies] = useState(JSON.parse(localStorage.getItem("foundMovies")) || []);
   const [noMoviesMessage, setNoMoviesMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [infoPopupData, setInfoPopupData] = useState({
@@ -106,6 +106,7 @@ function App() {
           .then((movies) => {
             setInitialMovies(movies);
             getSearchResult(movies, keyword, shortfilms);
+            setFoundMovies(JSON.parse(localStorage.getItem("foundMovies")));
           })
           .catch(() => {
             setNoMoviesMessage(SOMETHING_WRONG_MESSAGE);
@@ -115,13 +116,16 @@ function App() {
           })
       } else {
         getSearchResult(initialMovies, keyword, shortfilms);
+        setFoundMovies(JSON.parse(localStorage.getItem("foundMovies")));
       }
     }
   }
-  
+
   function getSearchResult(movies, keyword, shortfilms) {
     const filteredMovies = filterMovies(movies, keyword, shortfilms);
-    setFilteredMovies(filteredMovies);
+    localStorage.setItem("foundMovies", JSON.stringify(filteredMovies));
+    localStorage.setItem("keyword", keyword);
+    localStorage.setItem("shortfilms", JSON.stringify(shortfilms));
     if(filteredMovies.length === 0) {
       setNoMoviesMessage(NOTHING_FOUND_MESSAGE);
     } else {
@@ -200,7 +204,7 @@ function App() {
   }
 
   function signOut() {
-    localStorage.removeItem("jwt");
+    localStorage.clear();
     navigate("/");
     setIsLoggedIn(false);
     setCurrentUser(null);
@@ -256,7 +260,7 @@ function App() {
               isLoggedIn={isLoggedIn}
               component={Movies}
               onSearchSubmit={handleMoviesSearch}
-              movies={filteredMovies}
+              movies={foundMovies}
               isLoading={isLoading}
               noMoviesMessage={noMoviesMessage} />
             } 

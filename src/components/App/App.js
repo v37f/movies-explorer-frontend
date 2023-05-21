@@ -132,7 +132,25 @@ function App() {
   function checkToken() {
     const jwt = localStorage.getItem("jwt");
     if (jwt) {
-      setIsLoggedIn(true);
+      mainApi.getUserInfo()
+      .then(userInfo => {
+        setCurrentUser(userInfo);
+        setIsLoggedIn(true);
+        navigate("/movies");
+      })
+      .catch((error) => {
+        error.json().then((errorData) => {
+          let errorMessage = errorData.message;
+          if (errorData.validation) {
+            errorMessage = errorData.validation.body.message;
+          }
+          setInfoPopupData({
+            image: failImagePath,
+            message: errorMessage
+          });
+          setIsInfoPopupOpen(true);
+        })
+      })
     }
   }
 

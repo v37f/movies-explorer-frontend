@@ -1,7 +1,7 @@
 import "./Movies.css";
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
-import MoviesCard from "../MovieCard/MoviesCard";
+import MoviesCard from "../MovieCard/MovieCard";
 import More from "../More/More";
 import NoMovies from "../NoMovies/NoMovies";
 import { useFormAndValidation } from "../../hooks/useFormAndValidation";

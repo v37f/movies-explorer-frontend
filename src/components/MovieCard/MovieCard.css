@@ -1,4 +1,4 @@
-.movies-card {
+.movie-card {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -7,7 +7,7 @@
   position: relative;
 }
 
-.movies-card__image {
+.movie-card__image {
   display: block;
   margin-bottom: 14px;
   border-radius: 6px;
@@ -17,14 +17,14 @@
   object-position: center center;
 }
 
-.movies-card__text-container {
+.movie-card__text-container {
   display: flex;
   padding: 0 14px;
   justify-content: space-between;
   align-self: stretch;
 }
 
-.movies-card__title {
+.movie-card__title {
   max-width: 250px;
   min-height: 32px;
   margin: 0 30px 0 0;
@@ -37,7 +37,7 @@
   overflow: hidden;
 }
 
-.movies-card__duration {
+.movie-card__duration {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -56,7 +56,7 @@
   background-color: #2f2f2f;
 }
 
-.movies-card__button {
+.movie-card__button {
   position: absolute;
   top: 14px;
   right: 14px;
@@ -70,12 +70,12 @@
   transition-delay: 150ms;
 }
 
-.movies-card__button_type_save {
+.movie-card__button_type_save {
   padding: 6px 7px;
   width: 72px;
 }
 
-.movies-card__button_type_delete {
+.movie-card__button_type_delete {
   padding: 0;
   width: 21px;
   background-image: url('../../images/delete-button-icon.svg');
@@ -83,7 +83,7 @@
   background-position: center;
 }
 
-.movies-card__button_type_save::before {
+.movie-card__button_type_save::before {
   content: 'Сохранить';
   max-width: 58px;
   font-weight: 400;
@@ -99,12 +99,12 @@
   transition-delay: 150ms;
 }
 
-.movies-card__button:hover {
+.movie-card__button:hover {
   cursor: pointer;
   transform: scale(1.2);
 }
 
-.movies-card__button_saved {
+.movie-card__button_saved {
   width: 21px;
   background-color: #ee3465;
   background-image: url('../../images/save-button-icon.svg');
@@ -115,59 +115,59 @@
   transition-delay: 150ms;
 }
 
-.movies-card__button_saved.movies-card__button_type_save::before {
+.movie-card__button_saved.movie-card__button_type_save::before {
   content: '';
   opacity: 0;
   visibility: hidden;
   transition-delay: 150ms;
 }
 
-.movies-card:hover > .movies-card__button {
+.movie-card:hover > .movie-card__button {
   visibility: visible;
   opacity: 1;
   transition-delay: 150ms;
 }
 
-.movies-card:hover > .movies-card__button_type_save::before {
+.movie-card:hover > .movie-card__button_type_save::before {
   visibility: visible;
   transition-delay: 150ms;
 }
 
 @media screen and (max-width: 1023px) {
-  .movies-card {
+  .movie-card {
     width: 339px;
   }
 
-  .movies-card__image {
+  .movie-card__image {
     margin-bottom: 25px;
     height: 190px;
   }
 
-  .movies-card__text-container {
+  .movie-card__text-container {
     padding: 0;
   }
 
-  .movies-card__title {
+  .movie-card__title {
     -webkit-line-clamp: 1;
     min-height: 16px;
   }
 }
 
 @media screen and (max-width: 425px) {
-  .movies-card {
+  .movie-card {
     width: 300px;
   }
 
-  .movies-card__image {
+  .movie-card__image {
     margin-bottom: 15px;
     height: 168px;
   }
 
-  .movies-card__text-container {
+  .movie-card__text-container {
     padding: 0;
   }
 
-  .movies-card__title {
+  .movie-card__title {
     max-width: 240px;
     font-size: 12px;
     line-height: 15px;

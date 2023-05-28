@@ -38,7 +38,6 @@ function Movies({ onSearchSubmit, movies, isLoading, noMoviesMessage, onSaveClic
     <div className="movies">
       <SearchForm 
         onSearchSubmit={handleSearchClick} 
-        movies={movies} 
         keywordValue={values.keyword} 
         shortfilmsValue={values.shortfilms} 
         onKeywordChange={handleKeywordChange}

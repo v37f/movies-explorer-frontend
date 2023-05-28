@@ -25,7 +25,8 @@ import {
   MOVIES_BASE_URL, 
   UPDATE_SUCCESS_MESSAGE, 
   KEYWORD_REQUIRED_MESSAGE, 
-  NOTHING_FOUND_MESSAGE, 
+  NOTHING_FOUND_MESSAGE,
+  NOTHING_SAVED_MESSAGE, 
   SOMETHING_WRONG_MESSAGE 
 } from '../../utils/Constants';
 
@@ -36,7 +37,7 @@ function App() {
   const [foundMovies, setFoundMovies] = useState(JSON.parse(localStorage.getItem("foundMovies")) || []);
   const [foundSavedMovies, setFoundSavedMovies] = useState(savedMovies);
   const [noMoviesMessage, setNoMoviesMessage] = useState('');
-  const [noSavedMoviesMessage, setNoSavedMoviesMessage] = useState('Нет сохраненных фильмов');
+  const [noSavedMoviesMessage, setNoSavedMoviesMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [infoPopupData, setInfoPopupData] = useState({
     image: '',
@@ -93,10 +94,19 @@ function App() {
 
   // Если количество сохранненых фильмов изменится на 0 то обновится сообщение
   useEffect(() => {
-    if (savedMovies.length === 0) {
-      setNoSavedMoviesMessage('Нет сохраненных фильмов');
+    if (foundSavedMovies.length === 0 && savedMovies.length === 0) {
+      setNoSavedMoviesMessage(NOTHING_SAVED_MESSAGE);
+    } else {
+      setNoSavedMoviesMessage(NOTHING_FOUND_MESSAGE);
     }
-  },[savedMovies])
+  }, [foundSavedMovies, savedMovies])
+
+  useEffect(() => {
+    setNoMoviesMessage('');
+    if (foundMovies.length === 0 && localStorage.getItem("keyword")) {
+      setNoMoviesMessage(NOTHING_FOUND_MESSAGE);
+    }
+  }, [foundMovies])
 
   useEffect(() => {
     setIsSideMenuOpen(false);
@@ -178,11 +188,6 @@ function App() {
     localStorage.setItem("foundMovies", JSON.stringify(foundMovies));
     localStorage.setItem("keyword", keyword);
     localStorage.setItem("shortfilms", JSON.stringify(shortfilms));
-    if(foundMovies.length === 0) {
-      setNoMoviesMessage(NOTHING_FOUND_MESSAGE);
-    } else {
-      setNoMoviesMessage('');
-    }
   }
 
   function checkToken() {
@@ -254,6 +259,12 @@ function App() {
     navigate("/");
     setIsLoggedIn(false);
     setCurrentUser(null);
+    setFoundMovies([]);
+    setFilteredMovies([]);
+    setSavedMovies([]);
+    setFoundSavedMovies([]);
+    setInitialMovies([]);
+    setNoMoviesMessage('');
   }  
 
   function handleUpdateUserInfo(email, name) {

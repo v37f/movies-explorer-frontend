@@ -30,7 +30,7 @@ function SavedMovies({ onSearchSubmit, movies, onDeleteClick, noSavedMoviesMessa
         onKeywordChange={handleChange}
         onShortfilmsChange={handleCheckboxChange}/>
       {movies.length === 0 
-        ? <NoMovies message={noSavedMoviesMessage} />
+        ? <NoMovies isLoading={false} message={noSavedMoviesMessage} />
         : <MoviesCardList>
             {movies.map(movie => (<MovieCard movie={movie} onDeleteClick={onDeleteClick} key={movie._id} />)).reverse()}
           </MoviesCardList>

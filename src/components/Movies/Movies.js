@@ -1,13 +1,13 @@
 import "./Movies.css";
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
-import MoviesCard from "../MovieCard/MovieCard";
+import MovieCard from "../MovieCard/MovieCard";
 import More from "../More/More";
 import NoMovies from "../NoMovies/NoMovies";
 import { useFormAndValidation } from "../../hooks/useFormAndValidation";
 import { useState, useEffect } from "react";
 
-function Movies({ onSearchSubmit, movies, isLoading, noMoviesMessage }) {
+function Movies({ onSearchSubmit, movies, isLoading, noMoviesMessage, onSaveClick, onDeleteClick }) {
   const { values, handleChange, handleCheckboxChange } = useFormAndValidation({
     keyword: localStorage.getItem("keyword") || '',
     shortfilms: JSON.parse(localStorage.getItem("shortfilms")) || false,
@@ -48,7 +48,7 @@ function Movies({ onSearchSubmit, movies, isLoading, noMoviesMessage }) {
         ? <NoMovies isLoading={isLoading} message={noMoviesMessage} />
         : <> 
             <MoviesCardList>
-              {movies.map(movie => (<MoviesCard movie={movie} key={movie.id} />))}
+              {movies.map(movie => (<MovieCard movie={movie} onSaveClick={onSaveClick} onDeleteClick={onDeleteClick} key={movie.id} />))}
             </MoviesCardList>
             <More />
           </>

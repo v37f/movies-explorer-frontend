@@ -36,7 +36,8 @@ class Api {
 
   getUserInfo() {
     return this._request(`${this._baseUrl}/users/me`, {
-        headers: this._headers
+      method: 'GET',
+      headers: this._headers
     })
   }
 
@@ -45,6 +46,28 @@ class Api {
       method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({ email, name })
+    })
+  }
+
+  getSavedMovies() {
+    return this._request(`${this._baseUrl}/movies`, {
+      method: 'GET',
+      headers: this._headers
+    })
+  }
+
+  saveMovie(movie) {
+    return this._request(`${this._baseUrl}/movies`, {
+      method: 'POST',
+      headers: this._headers,
+      body: JSON.stringify(movie)
+    })
+  }
+
+  deleteMovie(movieId) {
+    return this._request(`${this._baseUrl}/movies/${movieId}`, {
+      method: 'DELETE',
+      headers: this._headers,
     })
   }
 }

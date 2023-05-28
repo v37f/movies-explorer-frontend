@@ -32,3 +32,57 @@ export const filterMovies = (movies, keyword, shortfilms) => {
     }
   });
 }
+
+export const setSavedParams = (movies, savedMovies) => {
+  const moviesWithSavedParams = [];
+  movies.forEach((movie) => {
+    const matchedMovie = savedMovies.find(savedMovie => savedMovie.movieId === movie.id)
+    if (matchedMovie) {
+      movie.isSaved = true;
+      movie._id = matchedMovie._id;
+    } else {
+      movie.isSaved = false;
+      movie._id = null;
+    }
+    moviesWithSavedParams.push(movie);
+  })
+
+  return moviesWithSavedParams;
+}
+
+// форматирует поля и содержание полей объекта фильма таким образом, чтобы его можно было добавить в базу
+// сохранненых фильмов
+export const formatMovieForSave = (movie, baseUrl) => {
+  let {
+    country,
+    director,
+    duration,
+    year,
+    description,
+    image,
+    trailerLink,
+    thumbnail,
+    id: movieId,
+    nameRU,
+    nameEN,
+  } = movie;
+
+  image = `${baseUrl}${movie.image.url}`
+  thumbnail = `${baseUrl}${movie.image.formats.thumbnail.url}`
+
+  const formatedMovie = {
+    country,
+    director,
+    duration,
+    year,
+    description,
+    image,
+    trailerLink,
+    thumbnail,
+    movieId,
+    nameRU,
+    nameEN,
+  };
+
+  return formatedMovie;
+}

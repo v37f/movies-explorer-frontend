@@ -17,14 +17,22 @@ import { useEffect, useState } from "react";
 import { getInitialMovies } from "../../utils/MoviesApi"
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import mainApi from '../../utils/MainApi';
-import { filterMovies } from '../../utils/Utils';
+import { filterMovies, setSavedParams, formatMovieForSave } from '../../utils/Utils';
 
 import successImagePath from '../../images/success.svg';
 import failImagePath from '../../images/fail.svg';
-import { UPDATE_SUCCESS_MESSAGE, KEYWORD_REQUIRED_MESSAGE, NOTHING_FOUND_MESSAGE, SOMETHING_WRONG_MESSAGE } from '../../utils/Constants';
+import { 
+  MOVIES_BASE_URL, 
+  UPDATE_SUCCESS_MESSAGE, 
+  KEYWORD_REQUIRED_MESSAGE, 
+  NOTHING_FOUND_MESSAGE, 
+  SOMETHING_WRONG_MESSAGE 
+} from '../../utils/Constants';
 
 function App() {
   const [initialMovies, setInitialMovies] = useState([]);
+  const [savedMovies, setSavedMovies] = useState([]);
+  const [filteredMovies, setFilteredMovies] = useState([]);
   const [foundMovies, setFoundMovies] = useState(JSON.parse(localStorage.getItem("foundMovies")) || []);
   const [noMoviesMessage, setNoMoviesMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -61,21 +69,25 @@ function App() {
       .then(userInfo => {
         setCurrentUser(userInfo);
       })
-      .catch((error) => {
-        error.json().then((errorData) => {
-          let errorMessage = errorData.message;
-          if (errorData.validation) {
-            errorMessage = errorData.validation.body.message;
-          }
-          setInfoPopupData({
-            image: failImagePath,
-            message: errorMessage
-          });
-          setIsInfoPopupOpen(true);
+      .then(() => {
+        mainApi.getSavedMovies()
+        .then(movies => {
+          setSavedMovies(movies);
         })
+        .catch((error) => {
+          handleRequestError(error);
+        })
+      })
+      .catch((error) => {
+        handleRequestError(error);
       })
     }
   }, [isLoggedIn]);
+
+  useEffect(() => {
+    const filteredMoviesWithSavedParams = setSavedParams(filteredMovies, savedMovies);
+    setFoundMovies(filteredMoviesWithSavedParams);
+  }, [filteredMovies, savedMovies]);
 
   useEffect(() => {
     setIsSideMenuOpen(false);
@@ -95,7 +107,27 @@ function App() {
     }
   }, [isInfoPopupOpen]);
 
-  function handleMoviesSearch(keyword, shortfilms) {
+  function handleSaveMovie(movie) {
+    return mainApi.saveMovie(formatMovieForSave(movie, MOVIES_BASE_URL))
+      .then(newMovie => {
+        setSavedMovies([...savedMovies, newMovie]);
+      })
+      .catch((error) => {
+        handleRequestError(error);
+      })
+  }
+
+  function handleDeleteMovie(movie) {
+    return mainApi.deleteMovie(movie._id)
+      .then(() => {
+        setSavedMovies((movies) => movies.filter(m => m._id !==movie._id));
+      })
+      .catch((error) => {
+        handleRequestError(error);
+      })
+  }
+
+  function handleMoviesSearchSubmit(keyword, shortfilms) {
     if (!keyword) {
       setNoMoviesMessage(KEYWORD_REQUIRED_MESSAGE);
       return;
@@ -122,11 +154,15 @@ function App() {
   }
 
   function getSearchResult(movies, keyword, shortfilms) {
-    const filteredMovies = filterMovies(movies, keyword, shortfilms);
-    localStorage.setItem("foundMovies", JSON.stringify(filteredMovies));
+    // фильтруем фильмы по ключевому слову и чекбоксу и записываем их в стейт filteredMovies
+    // при изменения стейта filteredMovies срабатывает useEffect и в стейт foundMovies 
+    // записвают фильмы из filteredMovies но уже с добавленным флагом isSaved.
+    // сохраняем стейт foundMovies в localStorage
+    setFilteredMovies(filterMovies(movies, keyword, shortfilms));
+    localStorage.setItem("foundMovies", JSON.stringify(foundMovies));
     localStorage.setItem("keyword", keyword);
     localStorage.setItem("shortfilms", JSON.stringify(shortfilms));
-    if(filteredMovies.length === 0) {
+    if(foundMovies.length === 0) {
       setNoMoviesMessage(NOTHING_FOUND_MESSAGE);
     } else {
       setNoMoviesMessage('');
@@ -143,19 +179,24 @@ function App() {
         navigate("/movies");
       })
       .catch((error) => {
-        error.json().then((errorData) => {
-          let errorMessage = errorData.message;
-          if (errorData.validation) {
-            errorMessage = errorData.validation.body.message;
-          }
-          setInfoPopupData({
-            image: failImagePath,
-            message: errorMessage
-          });
-          setIsInfoPopupOpen(true);
-        })
+        handleRequestError(error);
       })
     }
+  }
+
+  function handleRequestError(error) {
+    console.log(error);
+    error.json().then((errorData) => {
+      let errorMessage = errorData.message;
+      if (errorData.validation) {
+        errorMessage = errorData.validation.body.message;
+      }
+      setInfoPopupData({
+        image: failImagePath,
+        message: errorMessage
+      });
+      setIsInfoPopupOpen(true);
+    })
   }
 
   function handleRegister(email, password, name) {
@@ -189,17 +230,7 @@ function App() {
         }
       })
       .catch((error) => {
-        error.json().then((errorData) => {
-          let errorMessage = errorData.message;
-          if (errorData.validation) {
-            errorMessage = errorData.validation.body.message;
-          }
-          setInfoPopupData({
-            image: failImagePath,
-            message: errorMessage
-          });
-          setIsInfoPopupOpen(true);
-        })
+        handleRequestError(error);
       })
   }
 
@@ -259,10 +290,12 @@ function App() {
               <ProtectedRoute 
               isLoggedIn={isLoggedIn}
               component={Movies}
-              onSearchSubmit={handleMoviesSearch}
+              onSearchSubmit={handleMoviesSearchSubmit}
               movies={foundMovies}
               isLoading={isLoading}
-              noMoviesMessage={noMoviesMessage} />
+              noMoviesMessage={noMoviesMessage} 
+              onSaveClick={handleSaveMovie}
+              onDeleteClick={handleDeleteMovie}/>
             } 
           />
           <Route 
@@ -270,7 +303,9 @@ function App() {
             element={
               <ProtectedRoute 
               isLoggedIn={isLoggedIn}
-              component={SavedMovies} />
+              movies={savedMovies}
+              component={SavedMovies}
+              onDeleteClick={handleDeleteMovie}/>
             } 
           />
           <Route 

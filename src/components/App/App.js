@@ -34,7 +34,9 @@ function App() {
   const [savedMovies, setSavedMovies] = useState([]);
   const [filteredMovies, setFilteredMovies] = useState([]);
   const [foundMovies, setFoundMovies] = useState(JSON.parse(localStorage.getItem("foundMovies")) || []);
+  const [foundSavedMovies, setFoundSavedMovies] = useState(savedMovies);
   const [noMoviesMessage, setNoMoviesMessage] = useState('');
+  const [noSavedMoviesMessage, setNoSavedMoviesMessage] = useState('Нет сохраненных фильмов');
   const [isLoading, setIsLoading] = useState(false);
   const [infoPopupData, setInfoPopupData] = useState({
     image: '',
@@ -89,6 +91,13 @@ function App() {
     setFoundMovies(filteredMoviesWithSavedParams);
   }, [filteredMovies, savedMovies]);
 
+  // Если количество сохранненых фильмов изменится на 0 то обновится сообщение
+  useEffect(() => {
+    if (savedMovies.length === 0) {
+      setNoSavedMoviesMessage('Нет сохраненных фильмов');
+    }
+  },[savedMovies])
+
   useEffect(() => {
     setIsSideMenuOpen(false);
   }, [isSmallScreen]);
@@ -121,6 +130,7 @@ function App() {
     return mainApi.deleteMovie(movie._id)
       .then(() => {
         setSavedMovies((movies) => movies.filter(m => m._id !==movie._id));
+        setFoundSavedMovies((movies) => movies.filter(m => m._id !==movie._id));
       })
       .catch((error) => {
         handleRequestError(error);
@@ -138,7 +148,6 @@ function App() {
           .then((movies) => {
             setInitialMovies(movies);
             getSearchResult(movies, keyword, shortfilms);
-            setFoundMovies(JSON.parse(localStorage.getItem("foundMovies")));
           })
           .catch(() => {
             setNoMoviesMessage(SOMETHING_WRONG_MESSAGE);
@@ -148,15 +157,22 @@ function App() {
           })
       } else {
         getSearchResult(initialMovies, keyword, shortfilms);
-        setFoundMovies(JSON.parse(localStorage.getItem("foundMovies")));
       }
+    }
+  }
+
+  function handleSavedMoviesSearchSubmit(keyword, shortfilms) {
+    const filteredSavedMovies = filterMovies(savedMovies, keyword, shortfilms);
+    setFoundSavedMovies(filteredSavedMovies);
+    if(filteredSavedMovies.length === 0 && savedMovies.length !== 0) {
+      setNoSavedMoviesMessage(NOTHING_FOUND_MESSAGE);
     }
   }
 
   function getSearchResult(movies, keyword, shortfilms) {
     // фильтруем фильмы по ключевому слову и чекбоксу и записываем их в стейт filteredMovies
     // при изменения стейта filteredMovies срабатывает useEffect и в стейт foundMovies 
-    // записвают фильмы из filteredMovies но уже с добавленным флагом isSaved.
+    // записваются фильмы из filteredMovies но уже с добавленным флагом isSaved и _id.
     // сохраняем стейт foundMovies в localStorage
     setFilteredMovies(filterMovies(movies, keyword, shortfilms));
     localStorage.setItem("foundMovies", JSON.stringify(foundMovies));
@@ -185,7 +201,6 @@ function App() {
   }
 
   function handleRequestError(error) {
-    console.log(error);
     error.json().then((errorData) => {
       let errorMessage = errorData.message;
       if (errorData.validation) {
@@ -303,8 +318,10 @@ function App() {
             element={
               <ProtectedRoute 
               isLoggedIn={isLoggedIn}
-              movies={savedMovies}
+              movies={foundSavedMovies}
               component={SavedMovies}
+              noSavedMoviesMessage={noSavedMoviesMessage} 
+              onSearchSubmit={handleSavedMoviesSearchSubmit}
               onDeleteClick={handleDeleteMovie}/>
             } 
           />

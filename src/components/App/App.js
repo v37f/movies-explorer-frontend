@@ -13,7 +13,7 @@ import InfoPopup from "../InfoPopup/InfoPopup";
 import SideMenu from "../SideMenu/SideMenu";
 import { useMediaQuery } from "../../hooks/useMediaQuery"
 import { useLocation, Route, Routes, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getInitialMovies } from "../../utils/MoviesApi"
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import mainApi from '../../utils/MainApi';
@@ -36,6 +36,15 @@ function App() {
   const [filteredMovies, setFilteredMovies] = useState([]);
   const [foundMovies, setFoundMovies] = useState(JSON.parse(localStorage.getItem("foundMovies")) || []);
   const [foundSavedMovies, setFoundSavedMovies] = useState(savedMovies);
+  //
+  const isSmallScreen = useMediaQuery('(max-width: 480px)');
+  const isMediumScreen = useMediaQuery('(min-width: 481px)  and (max-width: 1217px)');
+  const isBigScreen = useMediaQuery('(min-width: 1218px)');
+  const [isMoreButtonVisible, setIsMoreButtonVisible] = useState(false);
+  const [displayedMoviesAmount, setDisplayedMoviesAmount] = useState(0);
+  const [currentDisplayedMovies, setCurrentDisplayedMovies] = useState([]);
+  const [moreValue, setMoreValue] = useState(0);
+  //
   const [noMoviesMessage, setNoMoviesMessage] = useState('');
   const [noSavedMoviesMessage, setNoSavedMoviesMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -50,7 +59,7 @@ function App() {
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
   const [isProfileFormDisabled, setIsProfileFormDisabled] = useState(true);
   const navigate = useNavigate();
-  const isSmallScreen = useMediaQuery('(max-width: 800px)');
+  const switchToBurger = useMediaQuery('(max-width: 800px)');
   const isHeaderVisible = pathname === "/" ||
                           pathname === "/movies" ||
                           pathname === "/saved-movies" ||
@@ -108,9 +117,51 @@ function App() {
     }
   }, [foundMovies])
 
+  const setDefaultDisplayedMoviesAmount = useCallback(() => {
+    if (isSmallScreen) {
+      setDisplayedMoviesAmount(5);
+    } else if (isMediumScreen) {
+      setDisplayedMoviesAmount(8);
+    } else if (isBigScreen) {
+      setDisplayedMoviesAmount(12);
+    }
+  }, [isSmallScreen, isMediumScreen, isBigScreen])
+  
+  // проверяем разрешение экрана и устаналиваем дефолтное количество отображаемых фильмов и количество добавляемое при нажатии кнопки "еще"
+  useEffect(() => {
+    if (isSmallScreen) {
+      // данная проверка нужна чтобы не сбрасывать количество отображаемых фильмов на дефолтное значение для случая
+      // когда пользователь уже нажал кнопку "еще" а потом произошло изменение разрешения, например при смене ориентации устройства
+      // с горизонтального на вертикальное 
+      if (currentDisplayedMovies.length < 5) {
+        setDefaultDisplayedMoviesAmount();
+      }
+      setMoreValue(2);
+    } else if (isMediumScreen) {
+      if (currentDisplayedMovies.length < 8) {
+        setDefaultDisplayedMoviesAmount();
+      }
+      setMoreValue(2);
+    } else if (isBigScreen) {
+      if (currentDisplayedMovies.length < 12) {
+        setDefaultDisplayedMoviesAmount();
+      }
+      setMoreValue(3);
+    }
+  }, [isSmallScreen, isMediumScreen, isBigScreen, currentDisplayedMovies, setDefaultDisplayedMoviesAmount]);
+
+  useEffect(() => {
+    setCurrentDisplayedMovies(foundMovies.slice(0, displayedMoviesAmount));
+    if (foundMovies.length > displayedMoviesAmount) {
+      setIsMoreButtonVisible(true);
+    } else {
+      setIsMoreButtonVisible(false);
+    }
+  }, [displayedMoviesAmount, foundMovies]);
+
   useEffect(() => {
     setIsSideMenuOpen(false);
-  }, [isSmallScreen]);
+  }, [switchToBurger]);
 
   useEffect(() => {
     function closePopupsByEscape(evt) {
@@ -125,6 +176,11 @@ function App() {
       }
     }
   }, [isInfoPopupOpen]);
+
+
+  function handleMoreClick() {
+    setDisplayedMoviesAmount(displayedMoviesAmount + moreValue);
+  }
 
   function handleSaveMovie(movie) {
     return mainApi.saveMovie(formatMovieForSave(movie, MOVIES_BASE_URL))
@@ -188,6 +244,7 @@ function App() {
     localStorage.setItem("foundMovies", JSON.stringify(foundMovies));
     localStorage.setItem("keyword", keyword);
     localStorage.setItem("shortfilms", JSON.stringify(shortfilms));
+    setDefaultDisplayedMoviesAmount();
   }
 
   function checkToken() {
@@ -307,7 +364,7 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="App">
-        {isHeaderVisible && <Header isLoggedIn={isLoggedIn} isSmallScreen={isSmallScreen} handleMenuClick={toggleSideMenu} />}
+        {isHeaderVisible && <Header isLoggedIn={isLoggedIn} switchToBurger={switchToBurger} handleMenuClick={toggleSideMenu} />}
         <Routes>
           <Route path="/" element={<Main />} />
           <Route 
@@ -317,11 +374,14 @@ function App() {
               isLoggedIn={isLoggedIn}
               component={Movies}
               onSearchSubmit={handleMoviesSearchSubmit}
-              movies={foundMovies}
+              movies={currentDisplayedMovies}
               isLoading={isLoading}
               noMoviesMessage={noMoviesMessage} 
               onSaveClick={handleSaveMovie}
-              onDeleteClick={handleDeleteMovie}/>
+              onDeleteClick={handleDeleteMovie}
+              isMoreButtonVisible={isMoreButtonVisible}
+              onMoreButtonClick={handleMoreClick}
+              />
             } 
           />
           <Route 

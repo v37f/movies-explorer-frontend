@@ -161,7 +161,7 @@
   }
 }
 
-@media screen and (max-width: 425px) {
+@media screen and (max-width: 767px) {
   .movie-card {
     width: 300px;
   }

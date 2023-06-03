@@ -9,13 +9,13 @@ function SideMenu({ isOpen, onCloseClick }) {
         <button className="side-menu__button" type="button" onClick={onCloseClick}/>
         <menu className="side-menu__menu">
           <li className="side-menu__menu-item">
-            <NavLink className="side-menu__link side-menu__link_type_navlink" to="/">Главная</NavLink>
+            <NavLink className="side-menu__link side-menu__link_type_navlink" onClick={onCloseClick} to="/">Главная</NavLink>
           </li>
           <li className="side-menu__menu-item">
-            <NavLink className="side-menu__link side-menu__link_type_navlink" to="/movies">Фильмы</NavLink>
+            <NavLink className="side-menu__link side-menu__link_type_navlink" onClick={onCloseClick} to="/movies">Фильмы</NavLink>
           </li>
           <li className="side-menu__menu-item">
-            <NavLink className="side-menu__link side-menu__link_type_navlink" to="/saved-movies">Сохранённые фильмы</NavLink>
+            <NavLink className="side-menu__link side-menu__link_type_navlink" onClick={onCloseClick} to="/saved-movies">Сохранённые фильмы</NavLink>
           </li>
         </menu>
         <Link className="side-menu__link side-menu__link_type_account" to="/profile">Аккаунт</Link>

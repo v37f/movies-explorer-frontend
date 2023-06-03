@@ -7,7 +7,8 @@ import NoMovies from "../NoMovies/NoMovies";
 import { useFormAndValidation } from "../../hooks/useFormAndValidation";
 import { useState, useEffect } from "react";
 
-function Movies({ onSearchSubmit, movies, isLoading, noMoviesMessage, onSaveClick, onDeleteClick }) {
+function Movies({ onSearchSubmit, movies, isLoading, noMoviesMessage, onSaveClick, onDeleteClick, isMoreButtonVisible, onMoreButtonClick }) {
+
   const { values, handleChange, handleCheckboxChange } = useFormAndValidation({
     keyword: localStorage.getItem("keyword") || '',
     shortfilms: JSON.parse(localStorage.getItem("shortfilms")) || false,
@@ -16,7 +17,8 @@ function Movies({ onSearchSubmit, movies, isLoading, noMoviesMessage, onSaveClic
   // но до того как будет нажата кнопка поиска. Если поиск уже производился(а потом например страница была перезагружена), то значение keyword будет в localStorage, а 
   // оттуда попадет в values.keyword, засчет чего начальное значение isSearchButtonClicked установится в true
   const [isSearchButtonClicked, setIsSearchButtonClicked] = useState(Boolean(values.keyword) || false);
-
+ 
+  
   useEffect(() => {
     if (isSearchButtonClicked) {
       onSearchSubmit(values.keyword, values.shortfilms);
@@ -34,6 +36,7 @@ function Movies({ onSearchSubmit, movies, isLoading, noMoviesMessage, onSaveClic
     setIsSearchButtonClicked(true);
   }
 
+
   return (
     <div className="movies">
       <SearchForm 
@@ -47,9 +50,9 @@ function Movies({ onSearchSubmit, movies, isLoading, noMoviesMessage, onSaveClic
         ? <NoMovies isLoading={isLoading} message={noMoviesMessage} />
         : <> 
             <MoviesCardList>
-              {movies.map(movie => (<MovieCard movie={movie} onSaveClick={onSaveClick} onDeleteClick={onDeleteClick} key={movie.id} />))}
+              {movies.map(movie => (<MovieCard movie={movie} onSaveClick={onSaveClick} onDeleteClick={onDeleteClick} key={movie.id} />))}               
             </MoviesCardList>
-            <More />
+            {isMoreButtonVisible && <More onMoreClick={onMoreButtonClick} />}
           </>
       }
 

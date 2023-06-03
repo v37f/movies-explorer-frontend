@@ -3,16 +3,16 @@ import Logo from "../Logo/Logo";
 import Navigation from "../Navigation/Navigation";
 import { useLocation, Link } from "react-router-dom";
 
-function Header({ isLoggedIn, isSmallScreen, handleMenuClick }) {
+function Header({ isLoggedIn, switchToBurger, handleMenuClick }) {
   const { pathname } = useLocation();
 
   return (
     <header className={"header" + (pathname==="/" ? " header_color_blue" : "")}>
       <div className="header__container">
         <Logo />
-        <div className={"header__links" + (pathname==="/" || !isLoggedIn || isSmallScreen ? " header__links_position_right" : "")}>
+        <div className={"header__links" + (pathname==="/" || !isLoggedIn || switchToBurger ? " header__links_position_right" : "")}>
           {isLoggedIn
-            ? isSmallScreen 
+            ? switchToBurger 
               ? <button className="header__button" type="button" onClick={handleMenuClick} />
               : <>
                   <Navigation />

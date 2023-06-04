@@ -84,11 +84,12 @@
 }
 
 .movie-card__button_type_delete {
-  padding: 0;
+  padding: 4.84px;
   width: 21px;
   background-image: url('../../images/delete-button-icon.svg');
   background-repeat: no-repeat;
   background-position: center;
+  background-size: 8px;
 }
 
 .movie-card__button_type_save::before {
@@ -158,6 +159,21 @@
   .movie-card__title {
     -webkit-line-clamp: 1;
     min-height: 16px;
+  }
+}
+
+/* разрешение менее 1024px в большинстве случаев имеют портативные устройства с тач-скрином и hover(при котором отображается кнопка)
+хоть и работает, но достаточно не предсказуемо, поэтому мне кажется логичным сделать отображение кнопки сохранить/удалить
+постоянным для улучшения UX, хоть это и не соотвествует макету на разрешении 768px */
+@media screen and (max-width: 1023px) {
+  .movie-card__button {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .movie-card__button_type_save::before {
+    visibility: visible;
+    transition-delay: 150ms;
   }
 }
 

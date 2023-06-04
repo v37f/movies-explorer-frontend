@@ -18,7 +18,7 @@ function SideMenu({ isOpen, onCloseClick }) {
             <NavLink className="side-menu__link side-menu__link_type_navlink" onClick={onCloseClick} to="/saved-movies">Сохранённые фильмы</NavLink>
           </li>
         </menu>
-        <Link className="side-menu__link side-menu__link_type_account" to="/profile">Аккаунт</Link>
+        <Link className="side-menu__link side-menu__link_type_account" onClick={onCloseClick} to="/profile">Аккаунт</Link>
       </div>
     </div>
   );

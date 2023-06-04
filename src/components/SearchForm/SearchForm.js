@@ -1,5 +1,6 @@
 import "./SearchForm.css";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
+import { KEYWORD_REQUIRED_MESSAGE } from '../../utils/Constants';
 
 function SearchForm({ onSearchSubmit, keywordValue, shortfilmsValue, onKeywordChange, onShortfilmsChange }) {
   return (
@@ -16,6 +17,7 @@ function SearchForm({ onSearchSubmit, keywordValue, shortfilmsValue, onKeywordCh
         />
         <button type="submit" className="search-form__button" />
       </fieldset>
+      <span className="search-form__input-error">{KEYWORD_REQUIRED_MESSAGE}</span>
       <FilterCheckbox onCheckboxChange={onShortfilmsChange} value={shortfilmsValue} />
     </form>
   );

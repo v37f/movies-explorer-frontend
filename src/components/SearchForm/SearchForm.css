@@ -31,7 +31,7 @@
 
 .search-form__input:focus {
   outline-color: #4285F4;
-  outline-style: groove;
+  outline-style: solid;
 }
 
 .search-form__input::placeholder {
@@ -44,12 +44,17 @@
   min-height: 22px;
   margin-bottom: 6px;
   font-weight: 400;
-  font-size: 20px;
-  line-height: 22px;
+  font-size: 18px;
+  line-height: 20px;
   text-align: left;
   color: #ff004c;
   visibility: hidden;
   opacity: 0;
+}
+
+.search-form__input-error_visible {
+  visibility: visible;
+  opacity: 1;
 }
 
 .search-form__button {

@@ -1,42 +1,45 @@
 import FormContainer from "../FormContainer/FormContainer";
 import Form from "../Form/Form";
 import { useFormAndValidation } from "../../hooks/useFormAndValidation";
+import validators from '../../utils/Validators';
 import "./Register.css";
 
 function Register({ handleRegister }) {
 
-  const { values, handleChange, errors, isValid } = useFormAndValidation({
+  const { values, inputsErrors,  formError, isValid, handleChange, onFocus, onBlur } = useFormAndValidation({
     email: '',
     password: '',
-    username: ''
-  });
+    name: ''
+  }, validators);
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    handleRegister(values.email, values.password, values.username);
+    handleRegister(values.email, values.password, values.name);
   }
 
   return (
     <main className="register">
       <FormContainer title="Добро пожаловать!" text="Уже зарегистрированы?" linkText="Войти" linkPath="/signin" >
         <Form onSubmit={handleSubmit} formName="register-form" >
-          <label className="form__input-label" htmlFor="username">Имя</label>
+          <label className="form__input-label" htmlFor="name">Имя</label>
           <input 
-            className={`form__input ${errors.username ? ' form__input_invalid' : ''}`} 
+            className={`form__input ${inputsErrors.name ? ' form__input_invalid' : ''}`} 
             type="text" 
-            id="username" 
-            name="username" 
+            id="name" 
+            name="name" 
             minLength="2" 
             maxLength="30" 
-            pattern="[A-Za-zА-Яа-яЁё\s\-]*"
+            pattern="^[A-Za-zА-Яа-яЁё\s\-]+$"
             required 
             placeholder="Введите имя" 
-            value={values.username || ''}
+            value={values.name || ''}
             onChange={handleChange}
+            onFocus={onFocus}
+            onBlur={onBlur}
           />
           <label className="form__input-label" htmlFor="email">E-mail</label>
           <input 
-            className={`form__input ${errors.email ? ' form__input_invalid' : ''}`} 
+            className={`form__input ${inputsErrors.email ? ' form__input_invalid' : ''}`} 
             type="email" 
             id="email" 
             name="email" 
@@ -44,10 +47,12 @@ function Register({ handleRegister }) {
             placeholder="Введите email" 
             value={values.email || ''}
             onChange={handleChange}
+            onFocus={onFocus}
+            onBlur={onBlur}
           />
           <label className="form__input-label" htmlFor="password">Пароль</label>
           <input 
-            className={`form__input ${errors.password ? ' form__input_invalid' : ''}`} 
+            className={`form__input ${inputsErrors.password ? ' form__input_invalid' : ''}`} 
             type="password" 
             id="password" 
             name="password" 
@@ -55,8 +60,12 @@ function Register({ handleRegister }) {
             placeholder="Введите пароль" 
             value={values.password || ''}
             onChange={handleChange}
+            onFocus={onFocus}
+            onBlur={onBlur}
           />
-          <span className={`form__input-error ${Object.keys(errors).length ? ' form__input-error_visible' : ''}`}>{errors.username || errors.email || errors.password}</span>
+          <span className={`form__input-error ${formError ? ' form__input-error_visible' : ''}`}>
+            {formError}
+          </span>
           <button className="form__submit" type="submit" disabled={!isValid}>Зарегистрироваться</button>
         </Form>
       </FormContainer>

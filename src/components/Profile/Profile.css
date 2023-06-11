@@ -91,6 +91,11 @@
   color: #fff;
 }
 
+.profile__form-input_invalid {
+  color: #ee3465;
+  ;
+}
+
 .profile__form-input:focus {
   outline: 1px solid #4285f4;
 }

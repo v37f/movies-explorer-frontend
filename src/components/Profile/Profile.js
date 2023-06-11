@@ -1,14 +1,15 @@
 import { useState, useContext, useEffect } from "react";
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { useFormAndValidation } from "../../hooks/useFormAndValidation";
+import validators from '../../utils/Validators';
 import "./Profile.css";
 
 function Profile({ onSignOut, onUpdateUser, isFormDisabled, setIsFormDisabled }) {
   const currentUser = useContext(CurrentUserContext);
-  const { values, handleChange, errors, isValid, resetForm, setValues, setIsValid } = useFormAndValidation({
+  const { values, handleChange, inputsErrors, formError, onFocus, onBlur, isValid, resetForm, setValues, setIsValid } = useFormAndValidation({
     email: '',
     name: ''
-  });
+  }, validators);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   useEffect(() => {
@@ -51,35 +52,40 @@ function Profile({ onSignOut, onUpdateUser, isFormDisabled, setIsFormDisabled })
             <label className="profile__form-label" htmlFor="name">
               <span className="profile__form-label-span">Имя</span>
               <input 
-                className="profile__form-input" 
+                className={"profile__form-input" + (inputsErrors.name ? " profile__form-input_invalid" : "")}
                 type="text" 
                 id="name" 
                 name="name" 
                 minLength="2" 
-                maxLength="30" 
+                maxLength="30"
+                pattern="^[A-Za-zА-Яа-яЁё\s\-]+$"
                 required 
                 value={values.name || ''}
                 onChange={handleChange}
+                onFocus={onFocus}
+                onBlur={onBlur}
                 placeholder="Введите имя" 
               />
             </label>
             <label className="profile__form-label" htmlFor="email">
               <span className="profile__form-label-span">E-mail</span>
               <input 
-                className="profile__form-input" 
+                className={"profile__form-input" + (inputsErrors.email ? " profile__form-input_invalid" : "")} 
                 type="email" 
                 id="email" 
                 name="email" 
                 required 
                 value={values.email || ''}
                 onChange={handleChange}
+                onFocus={onFocus}
+                onBlur={onBlur}
                 placeholder="Введите email" 
               />
             </label>
           </fieldset>
           {!isFormDisabled && 
-            <span className={"profile__form-error" + (Object.keys(errors).length ? " profile__form-error_visible" : "")}>
-              {errors.name || errors.email}
+            <span className={"profile__form-error" + (formError ? " profile__form-error_visible" : "")}>
+              {formError}
             </span>
           }
           {!isFormDisabled && <button className="profile__form-button" type="submit" disabled={isButtonDisabled || !isValid} >Сохранить</button>}

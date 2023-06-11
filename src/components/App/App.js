@@ -24,7 +24,6 @@ import failImagePath from '../../images/fail.svg';
 import { 
   MOVIES_BASE_URL, 
   UPDATE_SUCCESS_MESSAGE, 
-  KEYWORD_REQUIRED_MESSAGE, 
   NOTHING_FOUND_MESSAGE,
   NOTHING_SAVED_MESSAGE, 
   SOMETHING_WRONG_MESSAGE 
@@ -204,26 +203,21 @@ function App() {
   }
 
   function handleMoviesSearchSubmit(keyword, shortfilms) {
-    if (!keyword) {
-      setNoMoviesMessage(KEYWORD_REQUIRED_MESSAGE);
-      return;
+    if (initialMovies.length === 0) {
+      setIsLoading(true);
+      getInitialMovies()
+        .then((movies) => {
+          setInitialMovies(movies);
+          getSearchResult(movies, keyword, shortfilms);
+        })
+        .catch(() => {
+          setNoMoviesMessage(SOMETHING_WRONG_MESSAGE);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        })
     } else {
-      if (initialMovies.length === 0) {
-        setIsLoading(true);
-        getInitialMovies()
-          .then((movies) => {
-            setInitialMovies(movies);
-            getSearchResult(movies, keyword, shortfilms);
-          })
-          .catch(() => {
-            setNoMoviesMessage(SOMETHING_WRONG_MESSAGE);
-          })
-          .finally(() => {
-            setIsLoading(false);
-          })
-      } else {
-        getSearchResult(initialMovies, keyword, shortfilms);
-      }
+      getSearchResult(initialMovies, keyword, shortfilms);
     }
   }
 

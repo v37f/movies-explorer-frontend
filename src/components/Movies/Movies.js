@@ -5,14 +5,15 @@ import MovieCard from "../MovieCard/MovieCard";
 import More from "../More/More";
 import NoMovies from "../NoMovies/NoMovies";
 import { useFormAndValidation } from "../../hooks/useFormAndValidation";
+import { KEYWORD_REQUIRED_MESSAGE } from '../../utils/Constants';
 import { useState, useEffect } from "react";
 
 function Movies({ onSearchSubmit, movies, isLoading, noMoviesMessage, onSaveClick, onDeleteClick, isMoreButtonVisible, onMoreButtonClick }) {
-
   const { values, handleChange, handleCheckboxChange } = useFormAndValidation({
     keyword: localStorage.getItem("keyword") || '',
     shortfilms: JSON.parse(localStorage.getItem("shortfilms")) || false,
   });
+  const [keywordError, setKeywordError] = useState('');
   // стейт isSearchButtonClicked нужен чтобы не допускать иницирование поиска нажатием на чекбокс короткометражек после изменения ключевого слова(keyword),
   // но до того как будет нажата кнопка поиска. Если поиск уже производился(а потом например страница была перезагружена), то значение keyword будет в localStorage, а 
   // оттуда попадет в values.keyword, засчет чего начальное значение isSearchButtonClicked установится в true
@@ -32,8 +33,13 @@ function Movies({ onSearchSubmit, movies, isLoading, noMoviesMessage, onSaveClic
 
   function handleSearchClick(evt) {
     evt.preventDefault();
-    onSearchSubmit(values.keyword, values.shortfilms);
-    setIsSearchButtonClicked(true);
+    if (values.keyword) {
+      setKeywordError('');
+      onSearchSubmit(values.keyword, values.shortfilms);
+      setIsSearchButtonClicked(true);
+    } else {
+      setKeywordError(KEYWORD_REQUIRED_MESSAGE);
+    }
   }
 
 
@@ -45,6 +51,7 @@ function Movies({ onSearchSubmit, movies, isLoading, noMoviesMessage, onSaveClic
         shortfilmsValue={values.shortfilms} 
         onKeywordChange={handleKeywordChange}
         onShortfilmsChange={handleCheckboxChange}
+        error={keywordError}
       />
       {movies.length === 0 
         ? <NoMovies isLoading={isLoading} message={noMoviesMessage} />

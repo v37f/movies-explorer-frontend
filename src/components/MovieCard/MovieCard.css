@@ -89,7 +89,6 @@
   background-image: url('../../images/delete-button-icon.svg');
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 8px;
 }
 
 .movie-card__button_type_save::before {

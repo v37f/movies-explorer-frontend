@@ -4,7 +4,7 @@ import { useFormAndValidation } from "../../hooks/useFormAndValidation";
 import validators from '../../utils/Validators';
 import "./Profile.css";
 
-function Profile({ onSignOut, onUpdateUser, isFormDisabled, setIsFormDisabled }) {
+function Profile({ onSignOut, onUpdateUser, isFormDisabled, setIsFormDisabled, isLoading }) {
   const currentUser = useContext(CurrentUserContext);
   const { values, handleChange, inputsErrors, formError, onFocus, onBlur, isValid, resetForm, setValues, setIsValid } = useFormAndValidation({
     email: '',
@@ -47,8 +47,8 @@ function Profile({ onSignOut, onUpdateUser, isFormDisabled, setIsFormDisabled })
     <main className="profile">
       <div className="profile__container">
         <h2 className="profile__greetings">Привет, {currentUser?.name}!</h2>
-        <form className="profile__form" action="#" name="profile-form" onSubmit={handleSaveClick} spellCheck="false">
-          <fieldset className="profile__form-fieldset" disabled={isFormDisabled} >
+        <form className="profile__form" action="#" name="profile-form" onSubmit={handleSaveClick} spellCheck="false" >
+          <fieldset className="profile__form-fieldset" disabled={isFormDisabled || isLoading} >
             <label className="profile__form-label" htmlFor="name">
               <span className="profile__form-label-span">Имя</span>
               <input 

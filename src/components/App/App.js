@@ -270,26 +270,22 @@ function App() {
   }
 
   function handleRegister(email, password, name) {
+    console.log(1);
+    setIsLoading(true);
     return mainApi.register(email, password, name)
     .then(() => {
       handleLogin(email, password);
     })
     .catch((error) => {
-      error.json().then((errorData) => {
-        let errorMessage = errorData.message;
-        if (errorData.validation) {
-          errorMessage = errorData.validation.body.message;
-        }
-        setInfoPopupData({
-          image: failImagePath,
-          message: errorMessage
-        });
-        setIsInfoPopupOpen(true);
-      })
+      handleRequestError(error);
     })
+    .finally(()=> {
+      setIsLoading(false);
+    });
   }
 
   function handleLogin(email, password) {
+    setIsLoading(true);
     return mainApi.login(email, password)
       .then((data) => {
         if (data.token) {
@@ -302,6 +298,9 @@ function App() {
       .catch((error) => {
         handleRequestError(error);
       })
+      .finally(()=> {
+        setIsLoading(false);
+      });
   }
 
   function signOut() {
@@ -318,6 +317,7 @@ function App() {
   }  
 
   function handleUpdateUserInfo(email, name) {
+    setIsLoading(true);
     return mainApi.updateUserInfo(email, name)
       .then((userInfo) => {
         setCurrentUser(userInfo);
@@ -342,6 +342,7 @@ function App() {
         })
       })
       .finally(()=> {
+        setIsLoading(false);
         setIsInfoPopupOpen(true);
       });
   }
@@ -398,6 +399,7 @@ function App() {
             element={
               <ProtectedRoute 
               isLoggedIn={isLoggedIn}
+              isLoading={isLoading}
               component={Profile}
               onSignOut={signOut}
               onUpdateUser={handleUpdateUserInfo}
@@ -405,8 +407,8 @@ function App() {
               setIsFormDisabled={setIsProfileFormDisabled} />
             } 
           />
-          <Route path="/signup" element={<Register handleRegister={handleRegister} />} />
-          <Route path="/signin" element={<Login handleLogin={handleLogin} />} />
+          <Route path="/signup" element={<Register handleRegister={handleRegister} isLoading={isLoading} />} />
+          <Route path="/signin" element={<Login handleLogin={handleLogin} isLoading={isLoading} />} />
           <Route path="*" element={<NotFoundPage onBackClick={handleBackClick} />} />
         </Routes>
         {isFooterVisible && <Footer />}

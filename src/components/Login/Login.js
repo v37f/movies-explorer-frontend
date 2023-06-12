@@ -4,7 +4,7 @@ import { useFormAndValidation } from "../../hooks/useFormAndValidation";
 import validators from '../../utils/Validators';
 import "./Login.css";
 
-function Login({ handleLogin }) {
+function Login({ handleLogin, isLoading }) {
 
   const { values, inputsErrors, formError, isValid, handleChange, onFocus, onBlur } = useFormAndValidation({
     email: '',
@@ -19,7 +19,7 @@ function Login({ handleLogin }) {
   return (
     <main className="login">
       <FormContainer title="Рады видеть!" text="Ещё не зарегистрированы?" linkText="Регистрация" linkPath="/signup" >
-        <Form onSubmit={handleSubmit} formName="login-form">
+        <Form onSubmit={handleSubmit} formName="login-form" isLoading={isLoading} >
           <label className="form__input-label" htmlFor="email">E-mail</label>
           <input 
             className={`form__input ${inputsErrors.email ? ' form__input_invalid' : ''}`} 

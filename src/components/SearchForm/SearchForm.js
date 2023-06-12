@@ -3,7 +3,7 @@ import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 
 function SearchForm({ onSearchSubmit, error, keywordValue, shortfilmsValue, onKeywordChange, onShortfilmsChange }) {
   return (
-    <form className="search-form" onSubmit={onSearchSubmit} >
+    <form className="search-form" onSubmit={onSearchSubmit} spellCheck="false">
       <fieldset className="search-form__text-fieldset">
         <input 
           className="search-form__input" 

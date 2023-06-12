@@ -47,7 +47,7 @@ function Profile({ onSignOut, onUpdateUser, isFormDisabled, setIsFormDisabled })
     <main className="profile">
       <div className="profile__container">
         <h2 className="profile__greetings">Привет, {currentUser?.name}!</h2>
-        <form className="profile__form" action="#" name="profile-form" onSubmit={handleSaveClick} >
+        <form className="profile__form" action="#" name="profile-form" onSubmit={handleSaveClick} spellCheck="false">
           <fieldset className="profile__form-fieldset" disabled={isFormDisabled} >
             <label className="profile__form-label" htmlFor="name">
               <span className="profile__form-label-span">Имя</span>

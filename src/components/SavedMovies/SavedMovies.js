@@ -20,7 +20,7 @@ function SavedMovies({ onSearchSubmit, movies, onDeleteClick, noSavedMoviesMessa
     evt.preventDefault();
     onSearchSubmit(values.keyword, values.shortfilms);
   }
-
+  
   return (
     <div className="saved-movies">
       <SearchForm         

@@ -68,8 +68,6 @@ function App() {
                           pathname === "/movies" ||
                           pathname === "/saved-movies";
 
-
-  //level-3
   useEffect(() => {
     checkToken();
   }, []);
@@ -84,6 +82,7 @@ function App() {
         mainApi.getSavedMovies()
         .then(movies => {
           setSavedMovies(movies);
+          setFoundSavedMovies(movies);
         })
         .catch((error) => {
           handleRequestError(error);
@@ -248,7 +247,7 @@ function App() {
       .then(userInfo => {
         setCurrentUser(userInfo);
         setIsLoggedIn(true);
-        navigate("/movies");
+        navigate(pathname === "/signin" || pathname === "/signup" ? "/movies" : pathname, { replace: true });
       })
       .catch((error) => {
         handleRequestError(error);
@@ -347,6 +346,10 @@ function App() {
       });
   }
 
+  function handleBackClick() {
+    navigate(-1);
+  }
+
   function closePopup() {
     setIsInfoPopupOpen(false)
   }
@@ -404,7 +407,7 @@ function App() {
           />
           <Route path="/signup" element={<Register handleRegister={handleRegister} />} />
           <Route path="/signin" element={<Login handleLogin={handleLogin} />} />
-          <Route path="*" element={<NotFoundPage />} />
+          <Route path="*" element={<NotFoundPage onBackClick={handleBackClick} />} />
         </Routes>
         {isFooterVisible && <Footer />}
         <SideMenu isOpen={isSideMenuOpen} onCloseClick={toggleSideMenu}/>

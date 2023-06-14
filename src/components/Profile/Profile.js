@@ -6,21 +6,18 @@ import "./Profile.css";
 
 function Profile({ onSignOut, onUpdateUser, isFormDisabled, setIsFormDisabled, isLoading }) {
   const currentUser = useContext(CurrentUserContext);
-  const { values, handleChange, inputsErrors, formError, onFocus, onBlur, isValid, resetForm, setValues, setIsValid } = useFormAndValidation({
+  const { values, inputsErrors, isValid, formError, handleChange, onFocus, onBlur, resetForm } = useFormAndValidation({
     email: '',
     name: ''
   }, validators);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   useEffect(() => {
-    resetForm();
-    setValues({
-      ...values,
+    resetForm({
       email: currentUser.email,
       name: currentUser.name
-    });
-    setIsValid(true);
-  }, [currentUser, isFormDisabled]);
+    }, {}, true);
+  }, [currentUser, isFormDisabled, resetForm]);
 
   useEffect(() => {
     setIsButtonDisabled(true);
@@ -29,7 +26,7 @@ function Profile({ onSignOut, onUpdateUser, isFormDisabled, setIsFormDisabled, i
         setIsButtonDisabled(false);
       } 
     } 
-  }, [values]);
+  }, [values, currentUser]);
 
   function handleEditClick() {
     setIsFormDisabled(!isFormDisabled);

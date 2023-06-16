@@ -86,11 +86,10 @@ function App() {
     setFoundMovies(filteredMoviesWithSavedParams);
   }, [filteredMovies, savedMovies]);
 
-  // Если количество сохранненых фильмов изменится на 0 то обновится сообщение
   useEffect(() => {
-    if (foundSavedMovies.length === 0 && savedMovies.length === 0) {
+    if (savedMovies.length === 0) {
       setNoSavedMoviesMessage(NOTHING_SAVED_MESSAGE);
-    } else {
+    } else if (foundSavedMovies.length === 0) {
       setNoSavedMoviesMessage(NOTHING_FOUND_MESSAGE);
     }
   }, [foundSavedMovies, savedMovies])

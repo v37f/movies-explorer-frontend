@@ -72,27 +72,14 @@ function App() {
     checkToken();
   }, []);
 
-  useEffect(() => {
-    if (isLoggedIn) {
-      mainApi.getUserInfo()
-      .then(userInfo => {
-        setCurrentUser(userInfo);
+  function getAllUserData() {
+    return Promise.all([mainApi.getUserInfo(), mainApi.getSavedMovies()])
+      .then(result => {
+        setCurrentUser(result[0]);
+        setSavedMovies(result[1]);
+        setFoundSavedMovies(result[1]);
       })
-      .then(() => {
-        mainApi.getSavedMovies()
-        .then(movies => {
-          setSavedMovies(movies);
-          setFoundSavedMovies(movies);
-        })
-        .catch((error) => {
-          handleRequestError(error);
-        })
-      })
-      .catch((error) => {
-        handleRequestError(error);
-      })
-    }
-  }, [isLoggedIn]);
+  }
 
   useEffect(() => {
     const filteredMoviesWithSavedParams = setSavedParams(filteredMovies, savedMovies);
@@ -243,15 +230,14 @@ function App() {
   function checkToken() {
     const jwt = localStorage.getItem("jwt");
     if (jwt) {
-      mainApi.getUserInfo()
-      .then(userInfo => {
-        setCurrentUser(userInfo);
-        setIsLoggedIn(true);
-        navigate(pathname === "/signin" || pathname === "/signup" ? "/movies" : pathname, { replace: true });
-      })
-      .catch((error) => {
-        handleRequestError(error);
-      })
+      setIsLoggedIn(true);
+      getAllUserData()
+        .then(() => {
+          navigate(pathname === "/signin" || pathname === "/signup" ? "/movies" : pathname, { replace: true });
+        })
+        .catch((error) => {
+          handleRequestError(error);
+        })
     }
   }
 
@@ -270,7 +256,6 @@ function App() {
   }
 
   function handleRegister(email, password, name) {
-    console.log(1);
     setIsLoading(true);
     return mainApi.register(email, password, name)
     .then(() => {
@@ -292,7 +277,13 @@ function App() {
           localStorage.setItem("jwt", data.token);
           mainApi.setToken();
           setIsLoggedIn(true);
-          navigate("/movies");
+          getAllUserData()
+            .then(() => {
+              navigate("/movies");
+            })
+            .catch((error) => {
+              handleRequestError(error);
+            })
         }
       })
       .catch((error) => {

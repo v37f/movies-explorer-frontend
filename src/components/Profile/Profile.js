@@ -87,6 +87,7 @@ function Profile({ onSignOut, onUpdateUser, isFormDisabled, setIsFormDisabled, i
           }
           {!isFormDisabled && <button className="profile__form-button" type="submit" disabled={isButtonDisabled || !isValid} >Сохранить</button>}
         </form>
+        {!isFormDisabled && <button className="profile__button profile__button_color_blue" type="button" onClick={handleEditClick} >Отмена</button>}
         {isFormDisabled && <button className="profile__button" type="button" onClick={handleEditClick} >Редактировать</button>}
         {isFormDisabled && <button className="profile__button profile__button_color_red" type="button" onClick={onSignOut} >Выйти из аккаунта</button>}
       </div>

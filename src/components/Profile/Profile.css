@@ -1,5 +1,5 @@
 .profile {
-  padding: 74px 0 70px;
+  padding: 74px 0 50px;
   flex-grow: 1;
   color: #fff;
 }
@@ -104,6 +104,7 @@
   display: flex;
   justify-content: center;
   padding: 13px 0 15px;
+  margin-bottom: 10px;
   width: 100%;
   height: 45px;
   background: #3456f3;
@@ -169,6 +170,11 @@
   color: #ee3465;
 }
 
+.profile__button_color_blue {
+  font-weight: 500;
+  color: #4285f4;
+}
+
 .profile__button:last-of-type {
   margin: 0;
 }
@@ -180,7 +186,7 @@
 
 @media screen and (max-width: 1023px) {
   .profile {
-    padding: 236px 0 269px;
+    padding-top: 236px;
   }
 
   .profile__greetings {

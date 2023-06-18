@@ -2,9 +2,18 @@
 
 Данный проект является фронтенд частью сервиса по поиску фильмов. Разработан студентом Яндекс.Практикум в рамках выполнения дипломной работы на курсе "Веб-разработчик"
 
-## Макет
+## Ссылки
 
 [Макет проекта в Figma](https://disk.yandex.ru/d/z562cE2nlMbGVw)
+
+Пул-реквест: https://github.com/v37f/movies-explorer-frontend/pull/2
+
+Проект размещен на Яндекс.Облаке и доступен по следующим адресам:
+IP 158.160.26.69
+BACKEND https://api.movex.nomoredomains.monster
+FRONTEND https://movex.nomoredomains.monster
+
+Репозиторий: https://github.com/v37f/movies-explorer-frontend.git
 
 ## Технологии
 В проекте применяются:

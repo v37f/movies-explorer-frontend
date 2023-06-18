@@ -251,11 +251,15 @@ function App() {
           image: failImagePath,
           message: errorMessage
         });
-        setIsInfoPopupOpen(true);
       })
     } else {
+      setInfoPopupData({
+        image: failImagePath,
+        message: SOMETHING_WRONG_MESSAGE
+      });
       console.log(error)
     }
+    setIsInfoPopupOpen(true);
   }
 
   function handleRegister(email, password, name) {

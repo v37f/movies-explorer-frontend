@@ -9,8 +9,11 @@
 Пул-реквест: https://github.com/v37f/movies-explorer-frontend/pull/2
 
 Проект размещен на Яндекс.Облаке и доступен по следующим адресам:
+
 IP 158.160.26.69
+
 BACKEND https://api.movex.nomoredomains.monster
+
 FRONTEND https://movex.nomoredomains.monster
 
 Репозиторий: https://github.com/v37f/movies-explorer-frontend.git

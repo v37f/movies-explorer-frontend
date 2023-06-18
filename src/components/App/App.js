@@ -241,17 +241,21 @@ function App() {
   }
 
   function handleRequestError(error) {
-    error.json().then((errorData) => {
-      let errorMessage = errorData.message;
-      if (errorData.validation) {
-        errorMessage = errorData.validation.body.message;
-      }
-      setInfoPopupData({
-        image: failImagePath,
-        message: errorMessage
-      });
-      setIsInfoPopupOpen(true);
-    })
+    if ("json" in error) {
+      error.json().then((errorData) => {
+        let errorMessage = errorData.message;
+        if (errorData.validation) {
+          errorMessage = errorData.validation.body.message;
+        }
+        setInfoPopupData({
+          image: failImagePath,
+          message: errorMessage
+        });
+        setIsInfoPopupOpen(true);
+      })
+    } else {
+      console.log(error)
+    }
   }
 
   function handleRegister(email, password, name) {

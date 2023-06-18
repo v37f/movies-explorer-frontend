@@ -1,5 +1,5 @@
 export const MOVIES_BASE_URL = 'https://api.nomoreparties.co';
-export const MAIN_BASE_URL = 'http://localhost:3001';
+export const MAIN_BASE_URL = 'https://api.movex.nomoredomains.monster';
 export const UPDATE_SUCCESS_MESSAGE = 'Данные успешно изменены!';
 export const KEYWORD_REQUIRED_MESSAGE = 'Нужно ввести ключевое слово'
 export const NOTHING_FOUND_MESSAGE = 'Ничего не найдено';

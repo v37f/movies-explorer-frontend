@@ -229,12 +229,15 @@ function App() {
   function checkToken() {
     const jwt = localStorage.getItem("jwt");
     if (jwt) {
-      setIsLoggedIn(true);
       getAllUserData()
         .then(() => {
           navigate(pathname === "/signin" || pathname === "/signup" ? "/movies" : pathname, { replace: true });
+          setIsLoggedIn(true);
         })
         .catch((error) => {
+          if (error.status === 401) {
+            signOut();
+          };
           handleRequestError(error);
         })
     }
@@ -246,6 +249,9 @@ function App() {
         let errorMessage = errorData.message;
         if (errorData.validation) {
           errorMessage = errorData.validation.body.message;
+        }
+        if (error.status === 401) {
+          console.log(errorMessage);
         }
         setInfoPopupData({
           image: failImagePath,
@@ -259,7 +265,9 @@ function App() {
       });
       console.log(error)
     }
-    setIsInfoPopupOpen(true);
+    if (error.status !== 401) {
+      setIsInfoPopupOpen(true);
+    }
   }
 
   function handleRegister(email, password, name) {

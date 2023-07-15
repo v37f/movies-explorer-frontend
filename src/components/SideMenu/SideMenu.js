@@ -1,7 +1,24 @@
 import { NavLink, Link } from "react-router-dom";
 import "./SideMenu.css";
+import { useEffect } from "react";
 
 function SideMenu({ isOpen, onCloseClick }) {  
+
+  useEffect(() => {
+    if(isOpen) { 
+      document.querySelector(".side-menu").addEventListener("touchmove", disableTouchScroll);
+      return () => {
+        document.querySelector(".side-menu").removeEventListener("touchmove", disableTouchScroll);
+      }
+    }
+  }, [isOpen]);
+
+  function disableTouchScroll(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    return false;
+  }
+
   return (
     <div className={"side-menu" + (isOpen ? " side-menu_opened" : "")}>
       <div className="side-menu__cover" />

@@ -78,10 +78,6 @@ function App() {
     checkToken();
   }, []);
 
-  useEffect(() => {
-    toggleScroll(isSideMenuOpen)
-  }, [isSideMenuOpen]);
-
   function getAllUserData() {
     return Promise.all([mainApi.getUserInfo(), mainApi.getSavedMovies()])
       .then(result => {

@@ -88,17 +88,3 @@ export const formatMovieForSave = (movie, baseUrl) => {
 
   return formatedMovie;
 }
-
-export const toggleScroll = (value) => {
-  if (value) {
-    document.addEventListener('touchmove',disableTouchScroll);
-  } else {
-    document.removeEventListener('touchmove', disableTouchScroll);
-  }
-}
-
-function disableTouchScroll(e){
-  e.preventDefault();
-  e.stopPropagation();
-  return false;
-}

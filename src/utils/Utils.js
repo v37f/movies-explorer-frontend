@@ -88,3 +88,18 @@ export const formatMovieForSave = (movie, baseUrl) => {
 
   return formatedMovie;
 }
+
+export const toggleScroll = (value) => {
+  if (value) {
+    // Получаем текущую позицию скролла
+    const TopScroll = window.scrollY || document.documentElement.scrollTop;
+    const LeftScroll = window.scrollY || document.documentElement.scrollLeft;
+    
+    // если происходит скролл, возращаем его на предвдущую позицию
+    window.onscroll = function() {
+      window.scrollTo(LeftScroll, TopScroll);
+    };
+  } else {
+    window.onscroll = function() {};
+  }
+}

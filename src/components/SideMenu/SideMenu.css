@@ -22,7 +22,7 @@
   right: 0;
   max-width: 520px;
   width: 0;
-  height: 100vh;
+  height: 100dvh;
   box-sizing: border-box;
   background: #202020;
   padding: 159px 0 92px;

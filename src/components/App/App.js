@@ -17,7 +17,7 @@ import { useCallback, useEffect, useState } from "react";
 import { getInitialMovies } from "../../utils/MoviesApi"
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import mainApi from '../../utils/MainApi';
-import { filterMovies, setSavedParams, formatMovieForSave } from '../../utils/Utils';
+import { filterMovies, setSavedParams, formatMovieForSave, toggleScroll } from '../../utils/Utils';
 
 import successImagePath from '../../images/success.svg';
 import failImagePath from '../../images/fail.svg';
@@ -77,6 +77,10 @@ function App() {
   useEffect(() => {
     checkToken();
   }, []);
+
+  useEffect(() => {
+    toggleScroll(isSideMenuOpen)
+  }, [isSideMenuOpen]);
 
   function getAllUserData() {
     return Promise.all([mainApi.getUserInfo(), mainApi.getSavedMovies()])

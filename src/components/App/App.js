@@ -26,7 +26,13 @@ import {
   UPDATE_SUCCESS_MESSAGE, 
   NOTHING_FOUND_MESSAGE,
   NOTHING_SAVED_MESSAGE, 
-  SOMETHING_WRONG_MESSAGE 
+  SOMETHING_WRONG_MESSAGE,
+  SMALL_SCREEN_DEFAULT_MOVIES_AMOUNT,
+  MEDIUM_SCREEN_DEFAULT_MOVIES_AMOUNT,
+  BIG_SCREEN_DEFAULT_MOVIES_AMOUNT,
+  MEDIUM_SCREEN_MORE_BUTTON_VALUE,
+  BIG_SCREEN_MORE_BUTTON_VALUE,
+  UNAUTHORIZED_ERROR_STATUS
 } from '../../utils/Constants';
 
 function App() {
@@ -103,11 +109,11 @@ function App() {
 
   const setDefaultDisplayedMoviesAmount = useCallback(() => {
     if (isSmallScreen) {
-      setDisplayedMoviesAmount(5);
+      setDisplayedMoviesAmount(SMALL_SCREEN_DEFAULT_MOVIES_AMOUNT);
     } else if (isMediumScreen) {
-      setDisplayedMoviesAmount(8);
+      setDisplayedMoviesAmount(MEDIUM_SCREEN_DEFAULT_MOVIES_AMOUNT);
     } else if (isBigScreen) {
-      setDisplayedMoviesAmount(12);
+      setDisplayedMoviesAmount(BIG_SCREEN_DEFAULT_MOVIES_AMOUNT);
     }
   }, [isSmallScreen, isMediumScreen, isBigScreen])
   
@@ -117,20 +123,20 @@ function App() {
       // данная проверка нужна чтобы не сбрасывать количество отображаемых фильмов на дефолтное значение для случая
       // когда пользователь уже нажал кнопку "еще" а потом произошло изменение разрешения, например при смене ориентации устройства
       // с горизонтального на вертикальное 
-      if (currentDisplayedMovies.length < 5) {
+      if (currentDisplayedMovies.length < SMALL_SCREEN_DEFAULT_MOVIES_AMOUNT) {
         setDefaultDisplayedMoviesAmount();
       }
-      setMoreValue(2);
+      setMoreValue(MEDIUM_SCREEN_MORE_BUTTON_VALUE);
     } else if (isMediumScreen) {
-      if (currentDisplayedMovies.length < 8) {
+      if (currentDisplayedMovies.length < MEDIUM_SCREEN_DEFAULT_MOVIES_AMOUNT) {
         setDefaultDisplayedMoviesAmount();
       }
-      setMoreValue(2);
+      setMoreValue(MEDIUM_SCREEN_MORE_BUTTON_VALUE);
     } else if (isBigScreen) {
-      if (currentDisplayedMovies.length < 12) {
+      if (currentDisplayedMovies.length < BIG_SCREEN_DEFAULT_MOVIES_AMOUNT) {
         setDefaultDisplayedMoviesAmount();
       }
-      setMoreValue(3);
+      setMoreValue(BIG_SCREEN_MORE_BUTTON_VALUE);
     }
   }, [isSmallScreen, isMediumScreen, isBigScreen, currentDisplayedMovies, setDefaultDisplayedMoviesAmount]);
 
@@ -235,7 +241,7 @@ function App() {
           setIsLoggedIn(true);
         })
         .catch((error) => {
-          if (error.status === 401) {
+          if (error.status === UNAUTHORIZED_ERROR_STATUS) {
             signOut();
           };
           handleRequestError(error);
@@ -250,7 +256,7 @@ function App() {
         if (errorData.validation) {
           errorMessage = errorData.validation.body.message;
         }
-        if (error.status === 401) {
+        if (error.status === UNAUTHORIZED_ERROR_STATUS) {
           console.log(errorMessage);
         }
         setInfoPopupData({
@@ -265,7 +271,7 @@ function App() {
       });
       console.log(error)
     }
-    if (error.status !== 401) {
+    if (error.status !== UNAUTHORIZED_ERROR_STATUS) {
       setIsInfoPopupOpen(true);
     }
   }

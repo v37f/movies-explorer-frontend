@@ -1,3 +1,5 @@
+import { SHORTFILMS_MAX_DURATION } from './Constants';
+
 export const formatTime = (time) => {
   const hours = Math.floor(time / 60);
   const minutes = time % 60;
@@ -26,7 +28,7 @@ export const checkForKeywordMatch = (movie, keyword) => {
 export const filterMovies = (movies, keyword, shortfilms) => {
   return movies.filter(movie => {
     if (shortfilms) {
-      return checkForKeywordMatch(movie, keyword) && checkDurationIsLesser(movie, 40);
+      return checkForKeywordMatch(movie, keyword) && checkDurationIsLesser(movie, SHORTFILMS_MAX_DURATION);
     } else {
       return checkForKeywordMatch(movie, keyword);
     }

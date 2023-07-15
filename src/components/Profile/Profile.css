@@ -2,6 +2,8 @@
   padding: 74px 0 50px;
   flex-grow: 1;
   color: #fff;
+  display: flex;
+  flex-direction: column;
 }
 
 .profile__container {
@@ -202,25 +204,39 @@
   }
 }
 
-@media screen and (max-width: 425px) {
+@media screen and (max-width: 767px) {
   .profile {
-    padding: 70px 0 40px;
+    padding: 70px 0 15px;
+  }
+
+  .profile__container {
+    flex-grow: 1;
   }
 
   .profile__greetings {
     margin: 0 0 80px;
   }
 
+  .profile__form {
+    flex-grow: 1;
+  }
+
   .profile__form-fieldset {
-    margin: 0 0 348px;
+    margin: 0;
+    flex-grow: 1;
+    margin: 0 0 15px;
   }
 
   .profile__form-fieldset:disabled {
-    margin: 0 0 379px;
+    margin: 0 0 46px;
   }
 
   .profile__button {
     font-size: 12px;
     line-height: 15px;
+  }
+
+  .profile__button_color_red.profile__button:last-of-type  {
+    margin-bottom: 25px;
   }
 }

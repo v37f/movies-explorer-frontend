@@ -3,15 +3,16 @@ import "./SideMenu.css";
 import { useEffect } from "react";
 
 function SideMenu({ isOpen, onCloseClick }) {  
-
+  
+  const orientationAngle = window.screen.orientation.angle;
   useEffect(() => {
-    if(isOpen) { 
+    if(isOpen && orientationAngle === 0) { 
       document.querySelector(".side-menu").addEventListener("touchmove", disableTouchScroll);
       return () => {
         document.querySelector(".side-menu").removeEventListener("touchmove", disableTouchScroll);
       }
     }
-  }, [isOpen]);
+  }, [isOpen, orientationAngle]);
 
   function disableTouchScroll(e) {
     e.preventDefault();

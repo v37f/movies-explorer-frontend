@@ -1,4 +1,4 @@
-.movies-card {
+.movie-card {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -7,7 +7,14 @@
   position: relative;
 }
 
-.movies-card__image {
+.movie-card__trailer-link {
+  width: 100%;
+  height: 100%;
+  display: block;
+  text-decoration: none;
+}
+
+.movie-card__image {
   display: block;
   margin-bottom: 14px;
   border-radius: 6px;
@@ -17,17 +24,17 @@
   object-position: center center;
 }
 
-.movies-card__text-container {
+.movie-card__text-container {
   display: flex;
   padding: 0 14px;
   justify-content: space-between;
   align-self: stretch;
 }
 
-.movies-card__title {
+.movie-card__title {
   max-width: 250px;
   min-height: 32px;
-  margin: 0 30px 0 0;
+  margin: 0;
   font-weight: 500;
   font-size: 13px;
   line-height: 16px;
@@ -35,9 +42,10 @@
   -webkit-box-orient: vertical;  
   -webkit-line-clamp: 2;
   overflow: hidden;
+  color: #fff;
 }
 
-.movies-card__duration {
+.movie-card__duration {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -56,7 +64,7 @@
   background-color: #2f2f2f;
 }
 
-.movies-card__button {
+.movie-card__button {
   position: absolute;
   top: 14px;
   right: 14px;
@@ -70,20 +78,20 @@
   transition-delay: 150ms;
 }
 
-.movies-card__button_type_save {
+.movie-card__button_type_save {
   padding: 6px 7px;
   width: 72px;
 }
 
-.movies-card__button_type_delete {
-  padding: 0;
+.movie-card__button_type_delete {
+  padding: 4.84px;
   width: 21px;
   background-image: url('../../images/delete-button-icon.svg');
   background-repeat: no-repeat;
   background-position: center;
 }
 
-.movies-card__button_type_save::before {
+.movie-card__button_type_save::before {
   content: 'Сохранить';
   max-width: 58px;
   font-weight: 400;
@@ -99,12 +107,12 @@
   transition-delay: 150ms;
 }
 
-.movies-card__button:hover {
+.movie-card__button:hover {
   cursor: pointer;
   transform: scale(1.2);
 }
 
-.movies-card__button_saved {
+.movie-card__button_saved {
   width: 21px;
   background-color: #ee3465;
   background-image: url('../../images/save-button-icon.svg');
@@ -115,59 +123,74 @@
   transition-delay: 150ms;
 }
 
-.movies-card__button_saved.movies-card__button_type_save::before {
+.movie-card__button_saved.movie-card__button_type_save::before {
   content: '';
   opacity: 0;
   visibility: hidden;
   transition-delay: 150ms;
 }
 
-.movies-card:hover > .movies-card__button {
+.movie-card:hover > .movie-card__button {
   visibility: visible;
   opacity: 1;
   transition-delay: 150ms;
 }
 
-.movies-card:hover > .movies-card__button_type_save::before {
+.movie-card:hover > .movie-card__button_type_save::before {
   visibility: visible;
   transition-delay: 150ms;
 }
 
 @media screen and (max-width: 1023px) {
-  .movies-card {
+  .movie-card {
     width: 339px;
   }
 
-  .movies-card__image {
+  .movie-card__image {
     margin-bottom: 25px;
     height: 190px;
   }
 
-  .movies-card__text-container {
+  .movie-card__text-container {
     padding: 0;
   }
 
-  .movies-card__title {
+  .movie-card__title {
     -webkit-line-clamp: 1;
     min-height: 16px;
   }
 }
 
-@media screen and (max-width: 425px) {
-  .movies-card {
+/* разрешение менее 1024px в большинстве случаев имеют портативные устройства с тач-скрином и hover(при котором отображается кнопка)
+хоть и работает, но достаточно не предсказуемо, поэтому мне кажется логичным сделать отображение кнопки сохранить/удалить
+постоянным для улучшения UX, хоть это и не соотвествует макету на разрешении 768px */
+@media screen and (max-width: 1023px) {
+  .movie-card__button {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .movie-card__button_type_save::before {
+    visibility: visible;
+    transition-delay: 150ms;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .movie-card {
     width: 300px;
   }
 
-  .movies-card__image {
+  .movie-card__image {
     margin-bottom: 15px;
     height: 168px;
   }
 
-  .movies-card__text-container {
+  .movie-card__text-container {
     padding: 0;
   }
 
-  .movies-card__title {
+  .movie-card__title {
     max-width: 240px;
     font-size: 12px;
     line-height: 15px;

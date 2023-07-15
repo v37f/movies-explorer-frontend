@@ -30,8 +30,13 @@
   margin: 0 0 184px;
 }
 
-.not-found-page__link {
-  max-width: 100%;
+.not-found-page__button {
+  width: 42px;
+  height: 17px;
+  padding: 0;
+  box-shadow: none;
+  border: none;
+  background: none;
   font-weight: 400;
   font-size: 14px;
   line-height: 17px;
@@ -39,9 +44,10 @@
   color: #4285f4;
   text-decoration: none;
   transition: opacity .4s ease;
+  cursor: pointer;
 }
 
-.not-found-page__link:hover {
+.not-found-page__button:hover {
   opacity: .7;
 }
 

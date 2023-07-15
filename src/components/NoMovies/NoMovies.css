@@ -1,0 +1,35 @@
+.no-movies {
+  max-width: 1140px;
+  width: calc(100% - (30px * 2));
+  margin: 0 auto;
+  padding: 70px 0 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+
+.no-movies__title {
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 34px;
+  text-align: center;
+}
+
+@media screen and (max-width: 1023px) {
+  .no-movies {
+    padding: 70px 0 10px;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .no-movies {
+    padding: 40px 0 10px;
+    width: calc(100% - (10px * 2));
+  }
+
+  .no-movies__title {
+    font-size: 18px;
+    line-height: 22px;
+  }
+}

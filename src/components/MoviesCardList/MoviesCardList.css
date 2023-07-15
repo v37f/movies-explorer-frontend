@@ -24,7 +24,7 @@
   }
 }
 
-@media screen and (max-width: 425px) {
+@media screen and (max-width: 767px) {
   .movies-card-list {
     padding: 40px 0 10px;
     width: calc(100% - (10px * 2));

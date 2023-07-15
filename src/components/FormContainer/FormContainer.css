@@ -44,6 +44,7 @@
   .form-container {
     max-width: 396px;
     width: calc(100% - (30px * 2));
+    flex-grow: 1;
   }
 }
 

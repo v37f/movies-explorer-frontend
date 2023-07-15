@@ -110,17 +110,29 @@
   opacity: .8;
 }
 
-@media screen and (max-width: 425px) {
+@media screen and (max-width: 767px) {
+  .form {
+    display: flex;
+    flex-grow: 1;
+  }
+
   .form__text-inputs {
-    margin: 0 0 14px;
+    flex-grow: 1;
   }
 
   .form__input-error {
-    margin-bottom: 157px;
+    margin-bottom: 15px;
+    flex-grow: 1;
   }
 
   .form__input-error_type_login {
-    margin-bottom: 245px;
+    margin-bottom: 15px;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .form__text-inputs {
+    margin: 0 0 14px;
   }
 
   .form__submit {

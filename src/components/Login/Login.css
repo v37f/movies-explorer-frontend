@@ -4,12 +4,15 @@
 
 @media screen and (max-width: 1023px) {
   .login {
-    padding: 232px 0 20px;
+    padding: 232px 0 30px;
   }
 }
 
-@media screen and (max-width: 425px) {
+@media screen and (max-width: 767px) {
   .login {
-    padding: 56px 0 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 56px 0 30px;
   }
 }

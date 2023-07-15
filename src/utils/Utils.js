@@ -91,15 +91,14 @@ export const formatMovieForSave = (movie, baseUrl) => {
 
 export const toggleScroll = (value) => {
   if (value) {
-    // Получаем текущую позицию скролла
-    const TopScroll = window.scrollY || document.documentElement.scrollTop;
-    const LeftScroll = window.scrollY || document.documentElement.scrollLeft;
-    
-    // если происходит скролл, возращаем его на предвдущую позицию
-    window.onscroll = function() {
-      window.scrollTo(LeftScroll, TopScroll);
-    };
+    document.addEventListener('touchmove',disableTouchScroll);
   } else {
-    window.onscroll = function() {};
+    document.removeEventListener('touchmove', disableTouchScroll);
   }
+}
+
+function disableTouchScroll(e){
+  e.preventDefault();
+  e.stopPropagation();
+  return false;
 }

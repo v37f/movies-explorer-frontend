@@ -1,5 +1,12 @@
 import "./Techs.css";
 import SectionTitle from "../SectionTitle/SectionTitle";
+import htmlLogoPath from '../../images/HTML-logo.png';
+import cssLogoPath from '../../images/css-logo.png';
+import jsLogoPath from '../../images/JS-logo.png';
+import reactLogoPath from '../../images/react-logo.png';
+import gitLogoPath from '../../images/git-logo.png';
+import expressLogoPath from '../../images/Expressjs-logo.png';
+import mongoLogoPath from '../../images/Mongodb-logo.png';
 
 function Techs() {
   return (
@@ -10,25 +17,25 @@ function Techs() {
         <p className="techs__text">На курсе веб-разработки мы освоили технологии, которые применили в дипломном проекте.</p>
         <ul className="techs__cards">
           <li className="techs__card">
-            <p className="techs__card-title">HTML</p>
+            <img className="techs__card-image" src={htmlLogoPath} alt="HTML5"/>
           </li>
           <li className="techs__card">
-            <p className="techs__card-title">CSS</p>
+            <img className="techs__card-image" src={cssLogoPath} alt="CSS3"/>
           </li>
           <li className="techs__card">
-            <p className="techs__card-title">JS</p>
+            <img className="techs__card-image" src={jsLogoPath} alt="JavaScript"/>
           </li>
           <li className="techs__card">
-            <p className="techs__card-title">React</p>
+            <img className="techs__card-image" src={reactLogoPath} alt="ReactJS"/>
           </li>
           <li className="techs__card">
-            <p className="techs__card-title">Git</p>
+            <img className="techs__card-image" src={gitLogoPath} alt="Git"/>
           </li>
           <li className="techs__card">
-            <p className="techs__card-title">Express.js</p>
+            <img className="techs__card-image" src={expressLogoPath} alt="Express.js"/>
           </li>
           <li className="techs__card">
-            <p className="techs__card-title">mongoDB</p>
+            <img className="techs__card-image" src={mongoLogoPath} alt="mongoDB"/>
           </li>
         </ul>
       </div>

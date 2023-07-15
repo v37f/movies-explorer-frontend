@@ -42,8 +42,7 @@
 
 .techs__card {
   width: 90px;
-  padding: 21px 0 22px;
-  background: #303030;
+  padding: 10px 0;
   border-radius: 10px;
 }
 
@@ -54,6 +53,12 @@
   line-height: 17px;
   text-align: center;
   letter-spacing: -0.04em;
+}
+
+.techs__card-image {
+  width: inherit;
+  height: 90px;
+  object-fit: contain;
 }
 
 @media screen and (max-width: 1279px) {
